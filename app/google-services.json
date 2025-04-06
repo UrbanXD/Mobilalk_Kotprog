@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1050794758220",
+    "project_id": "mobilalk-kotprog",
+    "storage_bucket": "mobilalk-kotprog.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1050794758220:android:f6224c56b2f7b2c3c924e9",
+        "android_client_info": {
+          "package_name": "com.urbanxd.mobilalk_kotprog"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAH3OVEQQzdMfVux6J7qi_F86nQIVyCS3g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,7 @@
+<resources>
+    <dimen name="extra_large">75sp</dimen>
+    <dimen name="large">50sp</dimen>
+    <dimen name="medium">30sp</dimen>
+    <dimen name="normal">22sp</dimen>
+    <dimen name="small">12sp</dimen>
+</resources>

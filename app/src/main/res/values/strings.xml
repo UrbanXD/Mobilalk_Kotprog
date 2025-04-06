@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Mobilalk-Kotprog</string>
+    <string name="logo_description">Vízóra logó</string>
+    <string name="app_title">Vizóra</string>
+    <string name="app_description">Könnyedén rögzítheted a vízóra állásodat, átláthatod a fogyasztásodat, és értesítést kapsz, amikor itt az ideje a következő leolvasásnak.</string>
+    <string name="app_what_we_offer">Egyszerű. Gyors. Papírmentes.</string>
+    <string name="register">Regisztráció</string>
+    <string name="already_have_an_account_link">Már van regisztrált fiókod? Jelentkezz be</string>
+    <string name="create_user">Fiók Létrehozása</string>
+    <string name="email">Email cím</string>
+    <string name="firstname">Keresztnév</string>
+    <string name="lastname">Vezetéknév</string>
+    <string name="repeat_password">Jelszó újra</string>
+    <string name="password">Jelszó</string>
+    <string name="login">Bejelentkezés</string>
+    <string name="register_link">Új fiókot szeretnél létrehozni? Regisztrálj</string>
+    <string name="default_welcome">Üdv nálunk!</string>
+    <string name="home_activity_description">Kezelje nálunk biztonságosan, gyorsan és papírmentesen vízfogyasztását!</string>
+    <string name="logout">Kijelentkezes</string>
+</resources>
