@@ -11,32 +11,13 @@
     android:paddingTop="64dp"
     android:paddingBottom="24dp">
 
-    <LinearLayout
+    <include
         android:id="@+id/logoAndTitleContainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal"
+        layout="@layout/title"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/logoImage"
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
-            android:contentDescription="@string/logo_description"
-            android:src="@drawable/logo" />
-
-        <TextView
-            android:id="@+id/titleText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/gilroy_heavy"
-            android:text="@string/app_title"
-            android:textColor="@color/light_blue"
-            android:textSize="@dimen/extra_large" />
-    </LinearLayout>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/description_container"
