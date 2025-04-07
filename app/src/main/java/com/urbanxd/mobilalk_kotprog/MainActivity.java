@@ -6,6 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -17,6 +21,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         if (FirebaseAuth.getInstance().getCurrentUser() != null) openHomeActivity();
+
+        LinearLayout logoAndTitle = findViewById(R.id.logoAndTitleContainer);
+        logoAndTitle.post(() -> {
+            Animation slideIn = AnimationUtils.loadAnimation(this, R.anim.slide_in_top);
+            logoAndTitle.startAnimation(slideIn);
+        });
     }
 
     public void openRegisterActivity(View view) {

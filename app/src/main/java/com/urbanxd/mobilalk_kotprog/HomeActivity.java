@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -35,6 +38,12 @@ public class HomeActivity extends AppCompatActivity {
         database = FirebaseFirestore.getInstance();
         userCollection = database.collection("users");
         if (user == null) finish();
+
+        LinearLayout logoAndTitle = findViewById(R.id.logoAndTitleContainer);
+        logoAndTitle.post(() -> {
+            Animation slideIn = AnimationUtils.loadAnimation(this, R.anim.slide_in_top);
+            logoAndTitle.startAnimation(slideIn);
+        });
 
         userCollection
                 .document(user.getUid())
