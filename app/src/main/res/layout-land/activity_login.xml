@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegisterActivity"
+    tools:context=".LoginActivity"
     android:paddingTop="@dimen/small_separator" >
 
     <include
@@ -16,17 +16,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar"
-        tools:context=".RegisterActivity"
         android:background="@color/white"
-        android:paddingHorizontal="@dimen/activity_padding_horizontal"
-        android:paddingBottom="@dimen/activity_padding_vertical" >
+        android:paddingHorizontal="@dimen/landscape_activity_padding_horizontal"
+        android:paddingBottom="@dimen/landscape_activity_padding_vertical" >
 
         <TextView
-            android:id="@+id/registerTitle"
+            android:id="@+id/loginTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/gilroy_heavy"
-            android:text="@string/create_user"
+            android:text="@string/login"
             android:textSize="@dimen/large_font_size"
             android:textAlignment="center"
             android:textColor="@color/dark_blue"
@@ -38,79 +37,50 @@
         <EditText
             android:id="@+id/emailInput"
             style="@style/AppEditText"
-            android:layout_marginTop="@dimen/large_separator"
+            android:layout_marginTop="@dimen/medium_separator"
             android:hint="@string/email"
-            android:autofillHints="emailAddress"
             android:inputType="textEmailAddress"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/registerTitle"  />
-
-        <EditText
-            android:id="@+id/lastnameInput"
-            style="@style/AppEditText"
-            android:hint="@string/lastname"
-            android:autofillHints="name"
-            android:inputType="textPersonName"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/emailInput" />
-
-
-        <EditText
-            android:id="@+id/firstNameInput"
-            style="@style/AppEditText"
-            android:hint="@string/firstname"
-            android:autofillHints="name"
-            android:inputType="textPersonName"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lastnameInput" />
+            app:layout_constraintTop_toBottomOf="@id/loginTitle"
+            android:autofillHints="emailAddress" />
 
         <EditText
             android:id="@+id/passwordInput"
             style="@style/AppEditText"
             android:hint="@string/password"
-            android:autofillHints=""
             android:inputType="textPassword"
+            android:autofillHints=""
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/firstNameInput" />
+            app:layout_constraintTop_toBottomOf="@id/emailInput" />
 
-        <EditText
-            android:id="@+id/repeatPasswordInput"
-            style="@style/AppEditText"
-            android:hint="@string/repeat_password"
-            android:autofillHints=""
-            android:inputType="textPassword"
+        <Button
+            android:id="@+id/loginButton"
+            style="@style/AppButton"
+            android:layout_marginTop="@dimen/medium_separator"
+            android:text="@string/login"
+            android:onClick="login"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/passwordInput" />
 
-        <Button
-            android:id="@+id/registerButton"
-            style="@style/AppButton"
-            android:layout_marginTop="@dimen/large_separator"
-            android:text="@string/register"
-            android:onClick="register"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/repeatPasswordInput" />
-
         <TextView
-            android:id="@+id/loginLink"
+            android:id="@+id/loginText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/small_separator"
             android:clickable="true"
             android:focusable="true"
-            android:text="@string/already_have_an_account_link"
+            android:text="@string/register_link"
             android:textAlignment="center"
             android:textColor="@color/dark_blue"
             android:textSize="@dimen/normal_font_size"
-            android:onClick="openLoginActivity"
+            android:onClick="openRegisterActivity"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/registerButton" />
+            app:layout_constraintTop_toBottomOf="@id/loginButton" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </RelativeLayout>

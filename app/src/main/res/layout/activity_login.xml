@@ -1,26 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity" >
+    tools:context=".LoginActivity"
+    android:paddingTop="@dimen/small_separator" >
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar"
-        app:layout_constraintTop_toTopOf="parent"
-        >
-    </include>
+        layout="@layout/toolbar" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
         android:background="@color/white"
-        android:paddingHorizontal="24dp"
-        android:paddingTop="64dp"
-        android:paddingBottom="24dp">
+        android:paddingHorizontal="@dimen/activity_padding_horizontal"
+        android:paddingVertical="@dimen/activity_padding_vertical" >
 
         <TextView
             android:id="@+id/loginTitle"
@@ -28,19 +26,18 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/gilroy_heavy"
             android:text="@string/login"
-            android:textSize="@dimen/large"
+            android:textSize="@dimen/large_font_size"
             android:textAlignment="center"
             android:textColor="@color/dark_blue"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginBottom="24dp"/>
+            app:layout_constraintEnd_toEndOf="parent" />
 
 
         <EditText
             android:id="@+id/emailInput"
             style="@style/AppEditText"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="@dimen/large_separator"
             android:hint="@string/email"
             android:inputType="textEmailAddress"
             app:layout_constraintEnd_toEndOf="parent"
@@ -63,11 +60,10 @@
         <Button
             android:id="@+id/loginButton"
             style="@style/AppButton"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="@dimen/large_separator"
             android:text="@string/login"
             android:onClick="login"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.492"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/passwordInput" />
 
@@ -75,16 +71,16 @@
             android:id="@+id/loginText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="@dimen/small_separator"
             android:clickable="true"
             android:focusable="true"
             android:text="@string/register_link"
             android:textAlignment="center"
             android:textColor="@color/dark_blue"
-            android:textSize="@dimen/normal"
+            android:textSize="@dimen/normal_font_size"
             android:onClick="openRegisterActivity"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/loginButton" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</RelativeLayout>

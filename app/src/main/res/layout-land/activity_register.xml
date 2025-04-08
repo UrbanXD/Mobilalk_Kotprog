@@ -18,8 +18,8 @@
         android:layout_below="@id/toolbar"
         tools:context=".RegisterActivity"
         android:background="@color/white"
-        android:paddingHorizontal="@dimen/activity_padding_horizontal"
-        android:paddingBottom="@dimen/activity_padding_vertical" >
+        android:paddingHorizontal="@dimen/landscape_activity_padding_horizontal"
+        android:paddingBottom="@dimen/landscape_activity_padding_vertical" >
 
         <TextView
             android:id="@+id/registerTitle"
@@ -38,7 +38,7 @@
         <EditText
             android:id="@+id/emailInput"
             style="@style/AppEditText"
-            android:layout_marginTop="@dimen/large_separator"
+            android:layout_marginTop="@dimen/medium_separator"
             android:hint="@string/email"
             android:autofillHints="emailAddress"
             android:inputType="textEmailAddress"
@@ -90,7 +90,7 @@
         <Button
             android:id="@+id/registerButton"
             style="@style/AppButton"
-            android:layout_marginTop="@dimen/large_separator"
+            android:layout_marginTop="@dimen/medium_separator"
             android:text="@string/register"
             android:onClick="register"
             app:layout_constraintEnd_toEndOf="parent"
