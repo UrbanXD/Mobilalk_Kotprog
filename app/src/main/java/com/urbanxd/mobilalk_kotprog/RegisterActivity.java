@@ -6,23 +6,15 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -36,7 +28,6 @@ public class RegisterActivity extends AppCompatActivity {
     EditText emailInput, firstnameInput, lastnameInput, passwordInput, repeatPasswordInput;
     TextView emailError, firstnameError, lastnameError, passwordError, repeatPasswordError;
 
-    private SharedPreferences sharedPreferences;
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore database;
     private CollectionReference userCollection;
@@ -55,7 +46,6 @@ public class RegisterActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(v -> finish());
         toolbar.setNavigationIcon(ContextCompat.getDrawable(this, R.drawable.ic_back_arrow));
 
-        sharedPreferences = getSharedPreferences(Objects.requireNonNull(RegisterActivity.class.getPackage()).toString(), MODE_PRIVATE);
         firebaseAuth = FirebaseAuth.getInstance();
         database = FirebaseFirestore.getInstance();
         userCollection = database.collection("users");
@@ -76,18 +66,43 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
 
-        String email = emailInput.getText().toString();
-        String firstname = firstnameInput.getText().toString();
-        String lastname = lastnameInput.getText().toString();
+        outState.putString("emailError", emailError.getText().toString());
+        outState.putInt("emailErrorVisibility", emailError.getVisibility());
 
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("email", email);
-        editor.putString("firstname", firstname);
-        editor.putString("lastname", lastname);
-        editor.apply();
+        outState.putString("firstnameError", firstnameError.getText().toString());
+        outState.putInt("firstnameErrorVisibility", firstnameError.getVisibility());
+
+        outState.putString("lastnameError", lastnameError.getText().toString());
+        outState.putInt("lastnameErrorVisibility", lastnameError.getVisibility());
+
+        outState.putString("passwordError", passwordError.getText().toString());
+        outState.putInt("passwordErrorVisibility", passwordError.getVisibility());
+
+        outState.putString("repeatPasswordError", repeatPasswordError.getText().toString());
+        outState.putInt("repeatPasswordErrorVisibility", repeatPasswordError.getVisibility());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        emailError.setText(savedInstanceState.getString("emailError", ""));
+        emailError.setVisibility(savedInstanceState.getInt("emailErrorVisibility", View.GONE));
+
+        firstnameError.setText(savedInstanceState.getString("firstnameError", ""));
+        firstnameError.setVisibility(savedInstanceState.getInt("firstnameErrorVisibility", View.GONE));
+
+        lastnameError.setText(savedInstanceState.getString("lastnameError", ""));
+        lastnameError.setVisibility(savedInstanceState.getInt("lastnameErrorVisibility", View.GONE));
+
+        passwordError.setText(savedInstanceState.getString("passwordError", ""));
+        passwordError.setVisibility(savedInstanceState.getInt("passwordErrorVisibility", View.GONE));
+
+        repeatPasswordError.setText(savedInstanceState.getString("repeatPasswordError", ""));
+        repeatPasswordError.setVisibility(savedInstanceState.getInt("repeatPasswordErrorVisibility", View.GONE));
     }
 
     public void register(View view) {
@@ -122,7 +137,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         if (firstname.isEmpty()) {
-            firstnameError.setText(getString(R.string.required_input_field, "A vezetéknév"));
+            firstnameError.setText(getString(R.string.required_input_field, "A keresztnév"));
             firstnameError.setVisibility(View.VISIBLE);
             hasError = true;
         }
@@ -149,19 +164,16 @@ public class RegisterActivity extends AppCompatActivity {
 
         if (hasError) return;
 
-        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    String userUID = Objects.requireNonNull(task.getResult().getUser()).getUid();
-                    createUserProfile(userUID, firstname, lastname);
-                    openHomeActivity();
-                    Toast.makeText(getApplicationContext(), getString(R.string.success_register), Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                Toast.makeText(getApplicationContext(), getString(R.string.unknown_firebase_error, "A regisztráció"), Toast.LENGTH_LONG).show();
+        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
+            if (task.isSuccessful()) {
+                String userUID = Objects.requireNonNull(task.getResult().getUser()).getUid();
+                createUserProfile(userUID, firstname, lastname);
+                openHomeActivity();
+                Toast.makeText(getApplicationContext(), getString(R.string.success_register), Toast.LENGTH_SHORT).show();
+                return;
             }
+
+            Toast.makeText(getApplicationContext(), getString(R.string.unknown_firebase_error, "A regisztráció"), Toast.LENGTH_LONG).show();
         });
     }
 

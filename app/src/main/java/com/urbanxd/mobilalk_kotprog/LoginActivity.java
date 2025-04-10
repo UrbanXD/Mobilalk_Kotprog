@@ -1,5 +1,6 @@
 package com.urbanxd.mobilalk_kotprog;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
@@ -40,8 +41,31 @@ public class LoginActivity extends AppCompatActivity {
 
         emailInput = findViewById(R.id.emailInput);
         passwordInput = findViewById(R.id.passwordInput);
+
         emailError = findViewById(R.id.emailError);
         passwordError = findViewById(R.id.passwordError);
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putString("emailError", emailError.getText().toString());
+        outState.putInt("emailErrorVisibility", emailError.getVisibility());
+
+        outState.putString("passwordError", passwordError.getText().toString());
+        outState.putInt("passwordErrorVisibility", passwordError.getVisibility());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        emailError.setText(savedInstanceState.getString("emailError", ""));
+        emailError.setVisibility(savedInstanceState.getInt("emailErrorVisibility", View.GONE));
+
+        passwordError.setText(savedInstanceState.getString("passwordError", ""));
+        passwordError.setVisibility(savedInstanceState.getInt("passwordErrorVisibility", View.GONE));
     }
 
     public void login(View view) {

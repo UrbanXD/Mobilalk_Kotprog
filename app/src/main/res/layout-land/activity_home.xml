@@ -47,6 +47,9 @@
 
   <Button
       style="@style/AppButton"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      app:layout_constraintWidth_percent="0.75"
       android:text="@string/logout"
       android:onClick="logout"
       app:layout_constraintEnd_toEndOf="parent"

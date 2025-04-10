@@ -25,8 +25,6 @@
             android:paddingHorizontal="@dimen/landscape_activity_padding_horizontal"
             android:paddingBottom="@dimen/landscape_activity_padding_vertical">
 
-            <!-- Ide jönnek a meglévő elemek -->
-
             <TextView
                 android:id="@+id/registerTitle"
                 android:layout_width="wrap_content"
@@ -51,6 +49,13 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/registerTitle" />
 
+            <TextView
+                android:id="@+id/emailError"
+                style="@style/AppErrorText"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/emailInput" />
+
             <EditText
                 android:id="@+id/lastnameInput"
                 style="@style/AppEditText"
@@ -59,7 +64,14 @@
                 android:inputType="textPersonName"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/emailInput" />
+                app:layout_constraintTop_toBottomOf="@id/emailError" />
+
+            <TextView
+                android:id="@+id/lastnameError"
+                style="@style/AppErrorText"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lastnameInput" />
 
             <EditText
                 android:id="@+id/firstNameInput"
@@ -69,7 +81,14 @@
                 android:inputType="textPersonName"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/lastnameInput" />
+                app:layout_constraintTop_toBottomOf="@id/lastnameError" />
+
+            <TextView
+                android:id="@+id/firstNameError"
+                style="@style/AppErrorText"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/firstNameInput" />
 
             <EditText
                 android:id="@+id/passwordInput"
@@ -79,7 +98,14 @@
                 android:inputType="textPassword"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/firstNameInput" />
+                app:layout_constraintTop_toBottomOf="@id/firstNameError" />
+
+            <TextView
+                android:id="@+id/passwordError"
+                style="@style/AppErrorText"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/passwordInput" />
 
             <EditText
                 android:id="@+id/repeatPasswordInput"
@@ -89,17 +115,27 @@
                 android:inputType="textPassword"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/passwordInput" />
+                app:layout_constraintTop_toBottomOf="@id/passwordError" />
+
+            <TextView
+                android:id="@+id/repeatPasswordError"
+                style="@style/AppErrorText"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/repeatPasswordInput" />
 
             <Button
                 android:id="@+id/registerButton"
                 style="@style/AppButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintWidth_percent="0.75"
                 android:layout_marginTop="@dimen/medium_separator"
                 android:text="@string/register"
                 android:onClick="register"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/repeatPasswordInput" />
+                app:layout_constraintTop_toBottomOf="@id/repeatPasswordError" />
 
             <TextView
                 android:id="@+id/loginLink"
@@ -108,7 +144,7 @@
                 android:layout_marginTop="@dimen/small_separator"
                 android:clickable="true"
                 android:focusable="true"
-                android:text="@string/register_link"
+                android:text="@string/already_have_an_account_link"
                 android:textAlignment="center"
                 android:textColor="@color/dark_blue"
                 android:textSize="@dimen/normal_font_size"
