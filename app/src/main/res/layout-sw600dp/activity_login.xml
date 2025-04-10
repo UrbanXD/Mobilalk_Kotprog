@@ -40,7 +40,7 @@
 
             <EditText
                 android:id="@+id/emailInput"
-                style="@style/AppEditText"
+                style="@style/AppEditTextTablet"
                 android:layout_marginTop="@dimen/large_separator"
                 android:hint="@string/email"
                 android:autofillHints="emailAddress"
@@ -51,14 +51,14 @@
 
             <TextView
                 android:id="@+id/emailError"
-                style="@style/AppErrorText"
+                style="@style/AppErrorTextTablet"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/emailInput" />
 
             <EditText
                 android:id="@+id/passwordInput"
-                style="@style/AppEditText"
+                style="@style/AppEditTextTablet"
                 android:hint="@string/password"
                 android:autofillHints=""
                 android:inputType="textPassword"
@@ -68,7 +68,7 @@
 
             <TextView
                 android:id="@+id/passwordError"
-                style="@style/AppErrorText"
+                style="@style/AppErrorTextTablet"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/passwordInput" />

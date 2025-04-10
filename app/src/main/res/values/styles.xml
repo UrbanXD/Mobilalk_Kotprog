@@ -23,9 +23,25 @@
         <item name="android:layout_marginTop">@dimen/small_separator</item>
     </style>
 
+    <style name="AppEditTextTablet" parent="Widget.AppCompat.EditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/min_touchable_layout_height</item>
+        <item name="android:layout_marginTop">@dimen/small_separator</item>
+        <item name="android:textSize">@dimen/normal_font_size</item>
+    </style>
+
     <style name="AppErrorText" parent="Widget.AppCompat.TextView">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/error</item>
+        <item name="android:visibility">gone</item>
+        <item name="android:layout_marginStart">4dp</item>
+    </style>
+
+    <style name="AppErrorTextTablet" parent="Widget.AppCompat.TextView">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/tablet_error_text_font_size</item>
         <item name="android:textColor">@color/error</item>
         <item name="android:visibility">gone</item>
         <item name="android:layout_marginStart">4dp</item>

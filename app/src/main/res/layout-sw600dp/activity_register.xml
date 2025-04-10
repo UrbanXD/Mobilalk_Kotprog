@@ -40,7 +40,7 @@
 
             <EditText
                 android:id="@+id/emailInput"
-                style="@style/AppEditText"
+                style="@style/AppEditTextTablet"
                 android:layout_marginTop="@dimen/medium_separator"
                 android:hint="@string/email"
                 android:autofillHints="emailAddress"
@@ -51,14 +51,14 @@
 
             <TextView
                 android:id="@+id/emailError"
-                style="@style/AppErrorText"
+                style="@style/AppErrorTextTablet"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/emailInput" />
 
             <EditText
                 android:id="@+id/lastnameInput"
-                style="@style/AppEditText"
+                style="@style/AppEditTextTablet"
                 android:hint="@string/lastname"
                 android:autofillHints="name"
                 android:inputType="textPersonName"
@@ -68,14 +68,14 @@
 
             <TextView
                 android:id="@+id/lastnameError"
-                style="@style/AppErrorText"
+                style="@style/AppErrorTextTablet"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/lastnameInput" />
 
             <EditText
                 android:id="@+id/firstNameInput"
-                style="@style/AppEditText"
+                style="@style/AppEditTextTablet"
                 android:hint="@string/firstname"
                 android:autofillHints="name"
                 android:inputType="textPersonName"
@@ -85,14 +85,14 @@
 
             <TextView
                 android:id="@+id/firstNameError"
-                style="@style/AppErrorText"
+                style="@style/AppErrorTextTablet"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/firstNameInput" />
 
             <EditText
                 android:id="@+id/passwordInput"
-                style="@style/AppEditText"
+                style="@style/AppEditTextTablet"
                 android:hint="@string/password"
                 android:autofillHints=""
                 android:inputType="textPassword"
@@ -102,14 +102,14 @@
 
             <TextView
                 android:id="@+id/passwordError"
-                style="@style/AppErrorText"
+                style="@style/AppErrorTextTablet"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/passwordInput" />
 
             <EditText
                 android:id="@+id/repeatPasswordInput"
-                style="@style/AppEditText"
+                style="@style/AppEditTextTablet"
                 android:hint="@string/repeat_password"
                 android:autofillHints=""
                 android:inputType="textPassword"
@@ -119,7 +119,7 @@
 
             <TextView
                 android:id="@+id/repeatPasswordError"
-                style="@style/AppErrorText"
+                style="@style/AppErrorTextTablet"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/repeatPasswordInput" />
