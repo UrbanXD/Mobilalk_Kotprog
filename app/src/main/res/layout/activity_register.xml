@@ -34,7 +34,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-
         <EditText
             android:id="@+id/emailInput"
             style="@style/AppEditText"
@@ -44,7 +43,14 @@
             android:inputType="textEmailAddress"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/registerTitle"  />
+            app:layout_constraintTop_toBottomOf="@id/registerTitle" />
+
+        <TextView
+            android:id="@+id/emailError"
+            style="@style/AppErrorText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/emailInput" />
 
         <EditText
             android:id="@+id/lastnameInput"
@@ -54,8 +60,14 @@
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/emailInput" />
+            app:layout_constraintTop_toBottomOf="@id/emailError" />
 
+        <TextView
+            android:id="@+id/lastnameError"
+            style="@style/AppErrorText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lastnameInput" />
 
         <EditText
             android:id="@+id/firstNameInput"
@@ -65,7 +77,14 @@
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lastnameInput" />
+            app:layout_constraintTop_toBottomOf="@id/lastnameError" />
+
+        <TextView
+            android:id="@+id/firstNameError"
+            style="@style/AppErrorText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/firstNameInput" />
 
         <EditText
             android:id="@+id/passwordInput"
@@ -75,7 +94,14 @@
             android:inputType="textPassword"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/firstNameInput" />
+            app:layout_constraintTop_toBottomOf="@id/firstNameError" />
+
+        <TextView
+            android:id="@+id/passwordError"
+            style="@style/AppErrorText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/passwordInput" />
 
         <EditText
             android:id="@+id/repeatPasswordInput"
@@ -85,7 +111,14 @@
             android:inputType="textPassword"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/passwordInput" />
+            app:layout_constraintTop_toBottomOf="@id/passwordError" />
+
+        <TextView
+            android:id="@+id/repeatPasswordError"
+            style="@style/AppErrorText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/repeatPasswordInput" />
 
         <Button
             android:id="@+id/registerButton"
@@ -95,7 +128,7 @@
             android:onClick="register"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/repeatPasswordInput" />
+            app:layout_constraintTop_toBottomOf="@id/repeatPasswordError" />
 
         <TextView
             android:id="@+id/loginLink"

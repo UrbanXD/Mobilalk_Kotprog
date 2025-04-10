@@ -20,7 +20,7 @@
     <style name="AppEditText" parent="Widget.AppCompat.EditText">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/min_touchable_layout_height</item>
-        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:layout_marginTop">@dimen/small_separator</item>
     </style>
 
     <style name="AppErrorText" parent="Widget.AppCompat.TextView">

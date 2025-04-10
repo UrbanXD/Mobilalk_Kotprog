@@ -9,8 +9,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -19,6 +22,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -29,11 +33,8 @@ import java.util.UUID;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    EditText emailInput;
-    EditText firstnameInput;
-    EditText lastnameInput;
-    EditText passwordInput;
-    EditText repeatPasswordInput;
+    EditText emailInput, firstnameInput, lastnameInput, passwordInput, repeatPasswordInput;
+    TextView emailError, firstnameError, lastnameError, passwordError, repeatPasswordError;
 
     private SharedPreferences sharedPreferences;
     private FirebaseAuth firebaseAuth;
@@ -66,6 +67,12 @@ public class RegisterActivity extends AppCompatActivity {
         lastnameInput = findViewById(R.id.lastnameInput);
         passwordInput = findViewById(R.id.passwordInput);
         repeatPasswordInput = findViewById(R.id.repeatPasswordInput);
+
+        emailError = findViewById(R.id.emailError);
+        firstnameError = findViewById(R.id.firstNameError);
+        lastnameError = findViewById(R.id.lastnameError);
+        passwordError = findViewById(R.id.passwordError);
+        repeatPasswordError = findViewById(R.id.repeatPasswordError);
     }
 
     @Override
@@ -85,32 +92,80 @@ public class RegisterActivity extends AppCompatActivity {
 
     public void register(View view) {
         String email = emailInput.getText().toString();
+        String lastname = lastnameInput.getText().toString();
+        String firstname = firstnameInput.getText().toString();
         String password = passwordInput.getText().toString();
         String repeatPassword = repeatPasswordInput.getText().toString();
 
-        if (!password.equals(repeatPassword)) return;
+        emailError.setVisibility(View.GONE);
+        lastnameError.setVisibility(View.GONE);
+        firstnameError.setVisibility(View.GONE);
+        passwordError.setVisibility(View.GONE);
+        repeatPasswordError.setVisibility(View.GONE);
+
+        boolean hasError = false;
+
+        if (email.isEmpty()) {
+            emailError.setText(getString(R.string.required_input_field, "Az email cím"));
+            emailError.setVisibility(View.VISIBLE);
+            hasError = true;
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            emailError.setText(getString(R.string.invalid_email_format));
+            emailError.setVisibility(View.VISIBLE);
+            hasError = true;
+        }
+
+        if (lastname.isEmpty()) {
+            lastnameError.setText(getString(R.string.required_input_field, "A vezetéknév"));
+            lastnameError.setVisibility(View.VISIBLE);
+            hasError = true;
+        }
+
+        if (firstname.isEmpty()) {
+            firstnameError.setText(getString(R.string.required_input_field, "A vezetéknév"));
+            firstnameError.setVisibility(View.VISIBLE);
+            hasError = true;
+        }
+
+        if (password.isEmpty()) {
+            passwordError.setText(getString(R.string.required_input_field, "A jelszó"));
+            passwordError.setVisibility(View.VISIBLE);
+            hasError = true;
+        } else if (password.length() < 6) {
+            passwordError.setText(getString(R.string.invalid_password));
+            passwordError.setVisibility(View.VISIBLE);
+            hasError = true;
+        }
+
+        if (!password.equals(repeatPassword)) {
+            repeatPasswordError.setText(getString(R.string.invalid_repeat_password));
+            repeatPasswordError.setVisibility(View.VISIBLE);
+            hasError = true;
+        } else if (repeatPassword.isEmpty()) {
+            repeatPasswordError.setText(getString(R.string.required_input_field, "A megerősítő jelszó"));
+            repeatPasswordError.setVisibility(View.VISIBLE);
+            hasError = true;
+        }
+
+        if (hasError) return;
 
         firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     String userUID = Objects.requireNonNull(task.getResult().getUser()).getUid();
-                    createUserProfile(userUID);
+                    createUserProfile(userUID, firstname, lastname);
                     openHomeActivity();
+                    Toast.makeText(getApplicationContext(), getString(R.string.success_register), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-
-                Log.d(RegisterActivity.class.getName(), "HIBA " + Objects.requireNonNull(task.getException()).getMessage());
+                Toast.makeText(getApplicationContext(), getString(R.string.unknown_firebase_error, "A regisztráció"), Toast.LENGTH_LONG).show();
             }
         });
-        Log.i(RegisterActivity.class.getName(), email + " " + password);
     }
 
-    protected void createUserProfile (String userUID) {
-        String firstname = firstnameInput.getText().toString();
-        String lastname = lastnameInput.getText().toString();
-
+    protected void createUserProfile (String userUID, String firstname, String lastname) {
         Map<String, Object> userProfile = new HashMap<>();
         userProfile.put("firstname", firstname);
         userProfile.put("lastname", lastname);
@@ -118,19 +173,7 @@ public class RegisterActivity extends AppCompatActivity {
         userCollection
                 .document(userUID)
                 .set(userProfile)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d("Firestore", "User profile saved.");
-                        createWatermeter(userUID);
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w("Firestore", "Error saving user", e);
-                    }
-                });
+                .addOnSuccessListener(aVoid -> createWatermeter(userUID));
     }
 
     protected void createWatermeter (String userUID) {
@@ -148,7 +191,7 @@ public class RegisterActivity extends AppCompatActivity {
         watermeterState.put("watermeterID", watermeterUID);
         watermeterState.put("date", Timestamp.now());
         watermeterState.put("state", 0);
-        database.collection("watermeterStates").add(watermeterState);
+        watermeterStateCollection.add(watermeterState);
     }
 
     public void openLoginActivity(View view) {

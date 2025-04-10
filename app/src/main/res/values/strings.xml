@@ -16,9 +16,14 @@
     <string name="register_link">Új fiókot szeretnél létrehozni? Regisztrálj</string>
     <string name="default_welcome">Üdv nálunk!</string>
     <string name="home_activity_description">Kezelje nálunk biztonságosan, gyorsan és papírmentesen vízfogyasztását!</string>
-    <string name="logout">Kijelentkezes</string>
+    <string name="logout">Kijelentkezés</string>
     <string name="invalid_email_format">Érvényntelen email cím formátum</string>
     <string name="required_input_field">%1$s mező nem lehet üres</string>
     <string name="unknown_firebase_error">%1$s során ismeretlen hiba lépett fel!</string>
     <string name="invalid_credentials_error">Hibás email cím és / vagy jelszó!</string>
+    <string name="invalid_password">Legalább 6 karakter hosszú jelszóra van szükség</string>
+    <string name="invalid_repeat_password">A jelszavak nem egyeznek</string>
+    <string name="success_login">Sikeres bejelentkezés!</string>
+    <string name="success_register">Sikeres regisztráció!</string>
+    <string name="success_logout">Sikeres kijelentkezés!</string>
 </resources>

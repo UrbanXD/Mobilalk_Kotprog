@@ -2,12 +2,12 @@ package com.urbanxd.mobilalk_kotprog;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,8 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class HomeActivity extends AppCompatActivity {
 
     private FirebaseUser user;
-    private String firstname;
-    private String lastname;
+    private String firstname, lastname;
 
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore database;
@@ -50,7 +49,6 @@ public class HomeActivity extends AppCompatActivity {
                 .get()
                 .addOnSuccessListener(documentSnapshot -> {
                     if(!documentSnapshot.exists()) {
-                        Log.d("HomeActivity", "User document not found");
                         return;
                     }
 
@@ -60,16 +58,13 @@ public class HomeActivity extends AppCompatActivity {
                     String welcomeMessage = "Üdv nálunk " + lastname + " " + firstname + "!";
                     TextView welcomeText = findViewById(R.id.welcomeText);
                     welcomeText.setText(welcomeMessage);
-                }).addOnFailureListener(e -> {
-                    Log.e("HomeActivity", "Hiba a felhasználó lekérdezésénél", e);
                 });
-
-        Log.d(HomeActivity.class.getName(), "aefeff "+user.getEmail());
     }
 
     public void logout(View view) {
         firebaseAuth.signOut();
         openMainActivity();
+        Toast.makeText(getApplicationContext(), getString(R.string.success_logout), Toast.LENGTH_SHORT).show();
     }
 
     public void openMainActivity() {
