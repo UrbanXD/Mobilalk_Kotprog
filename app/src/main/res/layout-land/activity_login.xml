@@ -11,11 +11,13 @@
     <include
         android:id="@+id/toolbar"
         layout="@layout/toolbar" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar"
-        android:fillViewport="true">
+        android:fillViewport="true" >
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -42,12 +44,18 @@
                 style="@style/AppEditText"
                 android:layout_marginTop="@dimen/medium_separator"
                 android:hint="@string/email"
+                android:autofillHints="emailAddress"
                 android:inputType="textEmailAddress"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/loginTitle"
-                android:autofillHints="emailAddress" />
+                app:layout_constraintTop_toBottomOf="@id/loginTitle" />
+
+            <TextView
+                android:id="@+id/emailError"
+                style="@style/AppErrorText"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/emailInput" />
 
             <EditText
                 android:id="@+id/passwordInput"
@@ -56,9 +64,15 @@
                 android:inputType="textPassword"
                 android:autofillHints=""
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/emailInput" />
+                app:layout_constraintTop_toBottomOf="@id/emailError" />
+
+            <TextView
+                android:id="@+id/passwordError"
+                style="@style/AppErrorText"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/passwordInput" />
 
             <Button
                 android:id="@+id/loginButton"
@@ -68,7 +82,7 @@
                 android:onClick="login"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/passwordInput" />
+                app:layout_constraintTop_toBottomOf="@id/passwordError" />
 
             <TextView
                 android:id="@+id/loginText"
