@@ -21,6 +21,7 @@
     <string name="required_input_field">%1$s mező nem lehet üres</string>
     <string name="unknown_firebase_error">%1$s során ismeretlen hiba lépett fel!</string>
     <string name="invalid_credentials_error">Hibás email cím és / vagy jelszó!</string>
+    <string name="email_already_registered_error">Az alábbi email címmel már regisztrálva van!</string>
     <string name="invalid_password">Legalább 6 karakter hosszú jelszóra van szükség</string>
     <string name="invalid_repeat_password">A jelszavak nem egyeznek</string>
     <string name="success_login">Sikeres bejelentkezés!</string>

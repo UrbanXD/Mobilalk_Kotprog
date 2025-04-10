@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -159,7 +160,6 @@ public class RegisterActivity extends AppCompatActivity {
         } else if (repeatPassword.isEmpty()) {
             repeatPasswordError.setText(getString(R.string.required_input_field, "A megerősítő jelszó"));
             repeatPasswordError.setVisibility(View.VISIBLE);
-            hasError = true;
         }
 
         if (hasError) return;
@@ -173,7 +173,14 @@ public class RegisterActivity extends AppCompatActivity {
                 return;
             }
 
-            Toast.makeText(getApplicationContext(), getString(R.string.unknown_firebase_error, "A regisztráció"), Toast.LENGTH_LONG).show();
+            Exception exception = task.getException();
+            String message = getString(R.string.unknown_firebase_error, "A regisztráció");
+
+            if (exception instanceof FirebaseAuthUserCollisionException) {
+                message = getString(R.string.email_already_registered_error);
+            }
+
+            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
         });
     }
 
