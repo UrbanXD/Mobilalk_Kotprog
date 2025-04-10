@@ -46,6 +46,13 @@
             app:layout_constraintTop_toBottomOf="@id/loginTitle"
             android:autofillHints="emailAddress" />
 
+        <TextView
+            android:id="@+id/emailError"
+            style="@style/AppErrorText"
+            app:layout_constraintTop_toBottomOf="@id/emailInput"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
         <EditText
             android:id="@+id/passwordInput"
             style="@style/AppEditText"
@@ -53,9 +60,15 @@
             android:inputType="textPassword"
             android:autofillHints=""
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/emailInput" />
+            app:layout_constraintTop_toBottomOf="@id/emailError" />
+
+        <TextView
+            android:id="@+id/passwordError"
+            style="@style/AppErrorText"
+            app:layout_constraintTop_toBottomOf="@id/passwordInput"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <Button
             android:id="@+id/loginButton"
@@ -65,7 +78,7 @@
             android:onClick="login"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/passwordInput" />
+            app:layout_constraintTop_toBottomOf="@id/passwordError" />
 
         <TextView
             android:id="@+id/loginText"

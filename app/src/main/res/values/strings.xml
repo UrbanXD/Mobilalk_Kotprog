@@ -17,4 +17,8 @@
     <string name="default_welcome">Üdv nálunk!</string>
     <string name="home_activity_description">Kezelje nálunk biztonságosan, gyorsan és papírmentesen vízfogyasztását!</string>
     <string name="logout">Kijelentkezes</string>
+    <string name="invalid_email_format">Érvényntelen email cím formátum</string>
+    <string name="required_input_field">%1$s mező nem lehet üres</string>
+    <string name="unknown_firebase_error">%1$s során ismeretlen hiba lépett fel!</string>
+    <string name="invalid_credentials_error">Hibás email cím és / vagy jelszó!</string>
 </resources>

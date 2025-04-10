@@ -6,18 +6,21 @@ import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 
 import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
 
-    EditText emailInput;
-    EditText passwordInput;
+    private EditText emailInput, passwordInput;
+    private TextView emailError, passwordError;
 
     private FirebaseAuth firebaseAuth;
 
@@ -37,11 +40,36 @@ public class LoginActivity extends AppCompatActivity {
 
         emailInput = findViewById(R.id.emailInput);
         passwordInput = findViewById(R.id.passwordInput);
+        emailError = findViewById(R.id.emailError);
+        passwordError = findViewById(R.id.passwordError);
     }
 
     public void login(View view) {
         String email = emailInput.getText().toString();
         String password = passwordInput.getText().toString();
+
+        emailError.setVisibility(View.GONE);
+        passwordError.setVisibility(View.GONE);
+
+        boolean hasError = false;
+
+        if (email.isEmpty()) {
+            emailError.setText(getString(R.string.required_input_field, "Az email cím"));
+            emailError.setVisibility(View.VISIBLE);
+            hasError = true;
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            emailError.setText(getString(R.string.invalid_email_format));
+            emailError.setVisibility(View.VISIBLE);
+            hasError = true;
+        }
+
+        if (password.isEmpty()) {
+            passwordError.setText(getString(R.string.required_input_field, "A jelszó"));
+            passwordError.setVisibility(View.VISIBLE);
+            hasError = true;
+        }
+
+        if (hasError) return;
 
         firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
             if (task.isSuccessful()) {
@@ -49,7 +77,14 @@ public class LoginActivity extends AppCompatActivity {
                 return;
             }
 
-            Log.d(RegisterActivity.class.getName(), "HIBA " + Objects.requireNonNull(task.getException()).getMessage());
+            Exception exception = task.getException();
+            String message = getString(R.string.unknown_firebase_error, "A bejelentkezés");
+
+            if (exception instanceof FirebaseAuthInvalidCredentialsException) {
+                message = getString(R.string.invalid_credentials_error);
+            }
+
+            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
         });
     }
 
