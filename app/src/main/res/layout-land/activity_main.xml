@@ -1,88 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:paddingHorizontal="@dimen/landscape_activity_padding_horizontal"
-    android:paddingVertical="@dimen/landscape_activity_padding_vertical" >
+    android:fillViewport="true" >
 
-    <include
-        android:id="@+id/logoAndTitleContainer"
-        layout="@layout/title"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <LinearLayout
-        android:id="@+id/description_container"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/separator"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/logoAndTitleContainer">
+        android:background="@color/white"
+        android:paddingHorizontal="@dimen/landscape_activity_padding_horizontal"
+        android:paddingVertical="@dimen/landscape_activity_padding_vertical" >
 
-        <TextView
-            android:id="@+id/app_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/app_description"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="@dimen/normal_font_size" />
-
-        <TextView
-            android:id="@+id/app_what_we_offer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/small_separator"
-            android:text="@string/app_what_we_offer"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="@dimen/normal_font_size" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/buttonsContainer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <Button
-            android:id="@+id/registerButton"
-            style="@style/AppButton"
-            android:text="@string/register"
-            android:onClick="openRegisterActivity"
+        <include
+            android:id="@+id/logoAndTitleContainer"
+            layout="@layout/title"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/logoAndTitleContainer" />
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/loginText"
+        <LinearLayout
+            android:id="@+id/description_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="@dimen/min_touchable_layout_height"
-            android:layout_marginTop="@dimen/small_separator"
+            android:layout_marginTop="@dimen/separator"
             android:gravity="center"
-            android:clickable="true"
-            android:focusable="true"
-            android:text="@string/already_have_an_account_link"
-            android:textColor="@color/dark_blue"
-            android:textSize="@dimen/normal_font_size"
-            android:onClick="openLoginActivity"
+            android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/registerButton" />
-    </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintTop_toBottomOf="@id/logoAndTitleContainer">
+
+            <TextView
+                android:id="@+id/app_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/app_description"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="@dimen/normal_font_size" />
+
+            <TextView
+                android:id="@+id/app_what_we_offer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/small_separator"
+                android:text="@string/app_what_we_offer"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="@dimen/normal_font_size" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/buttonsContainer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/medium_separator"
+            app:layout_constraintTop_toBottomOf="@id/description_container"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintWidth_percent="0.75" >
+
+            <Button
+                android:id="@+id/registerButton"
+                style="@style/AppButton"
+                android:text="@string/register"
+                android:onClick="openRegisterActivity" />
+
+            <TextView
+                android:id="@+id/loginText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/min_touchable_layout_height"
+                android:layout_marginTop="@dimen/small_separator"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true"
+                android:text="@string/already_have_an_account_link"
+                android:textColor="@color/dark_blue"
+                android:textSize="@dimen/normal_font_size"
+                android:onClick="openLoginActivity" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

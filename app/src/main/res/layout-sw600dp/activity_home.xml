@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".HomeActivity"
+    android:id="@+id/home"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:paddingHorizontal="@dimen/landscape_activity_padding_horizontal"
+    android:paddingVertical="@dimen/activity_padding_vertical" >
+
+  <include
+      android:id="@+id/logoAndTitleContainer"
+      layout="@layout/title"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent" />
+
+  <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/welcomeText"
+      android:text="@string/default_welcome"
+      android:textColor="@color/black"
+      android:textSize="@dimen/medium_font_size"
+      android:textAlignment="center"
+      android:layout_marginTop="@dimen/separator"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/logoAndTitleContainer" />
+
+  <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/descriptionText"
+      android:text="@string/home_activity_description"
+      android:textColor="@color/black"
+      android:textSize="@dimen/normal_font_size"
+      android:textAlignment="center"
+      android:layout_marginTop="@dimen/small_separator"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/welcomeText" />
+
+  <Button
+      style="@style/AppButton"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      app:layout_constraintWidth_percent="0.5"
+      android:text="@string/logout"
+      android:onClick="logout"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintBottom_toBottomOf="parent" />
+  </androidx.constraintlayout.widget.ConstraintLayout>
