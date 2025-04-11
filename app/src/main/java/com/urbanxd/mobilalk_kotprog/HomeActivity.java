@@ -11,20 +11,15 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private FirebaseUser user;
-    private String firstname, lastname;
-
     private FirebaseAuth firebaseAuth;
-    private FirebaseFirestore database;
-    private CollectionReference userCollection;
+    private UserViewModel userViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,32 +28,29 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         firebaseAuth = FirebaseAuth.getInstance();
-        user = firebaseAuth.getCurrentUser();
-        database = FirebaseFirestore.getInstance();
-        userCollection = database.collection("users");
-        if (user == null) finish();
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        if (firebaseUser == null) {
+            finish();
+            return;
+        }
+
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        userViewModel.loadUser(firebaseUser);
+
+        TextView welcomeText = findViewById(R.id.welcomeText);
+
+        userViewModel.getUserLiveData().observe(this, user -> {
+            if (user != null) {
+                String welcomeMessage = "Üdv nálunk " + user.getLastname() + " " + user.getFirstname() + "!";
+                welcomeText.setText(welcomeMessage);
+            }
+        });
 
         LinearLayout logoAndTitle = findViewById(R.id.logoAndTitleContainer);
         logoAndTitle.post(() -> {
             Animation slideIn = AnimationUtils.loadAnimation(this, R.anim.slide_in_top);
             logoAndTitle.startAnimation(slideIn);
         });
-
-        userCollection
-                .document(user.getUid())
-                .get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    if(!documentSnapshot.exists()) {
-                        return;
-                    }
-
-                    String firstname = documentSnapshot.getString("firstname");
-                    String lastname = documentSnapshot.getString("lastname");
-
-                    String welcomeMessage = "Üdv nálunk " + lastname + " " + firstname + "!";
-                    TextView welcomeText = findViewById(R.id.welcomeText);
-                    welcomeText.setText(welcomeMessage);
-                });
     }
 
     public void logout(View view) {
