@@ -21,12 +21,17 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/min_touchable_layout_height</item>
         <item name="android:layout_marginTop">@dimen/small_separator</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textColorHint">@color/gray</item>
+        <item name="android:backgroundTint">@color/edittext_underline_color</item>
     </style>
 
     <style name="AppEditTextTablet" parent="Widget.AppCompat.EditText">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/min_touchable_layout_height</item>
         <item name="android:layout_marginTop">@dimen/small_separator</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textColorHint">@color/gray</item>
         <item name="android:textSize">@dimen/normal_font_size</item>
     </style>
 
