@@ -27,9 +27,8 @@ public class WaterMeterState {
     public String getFormatedDate() {
         Date date = getDate().toDate();
 
-        // Formázzuk a dátumot
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        sdf.setTimeZone(TimeZone.getTimeZone("UTC")); // Állítsd be a megfelelő időzónát, ha szükséges
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
 
         return sdf.format(date);
     }
