@@ -49,20 +49,20 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:visibility="invisible"
+      android:layout_marginBottom="@dimen/small_separator"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/descriptionText"
-      app:layout_constraintBottom_toTopOf="@id/logoutButton" >
+      app:layout_constraintBottom_toTopOf="@id/addNewStateButton" >
     <include
         android:id="@+id/stateTable"
         layout="@layout/table_water_meter_state" />
   </RelativeLayout>
 
   <Button
-      android:id="@+id/logoutButton"
+      android:id="@+id/addNewStateButton"
       style="@style/AppButton"
-      android:text="@string/logout"
-      android:onClick="logout"
+      android:text="@string/add_new"
+      android:onClick="openAddStateBottomSheet"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintBottom_toBottomOf="parent" />

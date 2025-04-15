@@ -34,7 +34,10 @@ public class UserViewModel extends ViewModel {
                     updatedUser.setWaterMeter(waterMeter);
                     userLiveData.setValue(updatedUser);
                 }
-                userLoadedLiveData.setValue(true);;
+
+                if (!Boolean.TRUE.equals(userLoadedLiveData.getValue())) {
+                    userLoadedLiveData.setValue(true);
+                }
             });
         });
     }
