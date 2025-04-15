@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.urbanxd.mobilalk_kotprog.R;
+import com.urbanxd.mobilalk_kotprog.utils.Utils;
 
 import java.util.Objects;
 
@@ -31,12 +32,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("");
-        toolbar.setNavigationOnClickListener(v -> finish());
-        toolbar.setNavigationIcon(ContextCompat.getDrawable(this, R.drawable.ic_back_arrow));
+        Utils.backButtonToolbarOnCreate(this);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -98,8 +94,8 @@ public class LoginActivity extends AppCompatActivity {
 
         firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
             if (task.isSuccessful()) {
-                openHomeActivity();
-                Toast.makeText(getApplicationContext(), getString(R.string.success_login), Toast.LENGTH_SHORT).show();
+                Utils.openActivity(this, HomeActivity.class, true);
+                Utils.openToast(this, getString(R.string.success_login));
                 return;
             }
 
@@ -110,18 +106,11 @@ public class LoginActivity extends AppCompatActivity {
                 message = getString(R.string.invalid_credentials_error);
             }
 
-            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+            Utils.openToast(this, message, Toast.LENGTH_LONG);
         });
     }
 
     public void openRegisterActivity(View view) {
-        Intent intent = new Intent(this, RegisterActivity.class);
-        startActivity(intent);
-    }
-
-    public void openHomeActivity() {
-        Intent intent = new Intent(this, HomeActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); /// uriti a stacket, hogy back buttonnal veletlen se lehessen pl ide visszakerulni
-        startActivity(intent);
+        Utils.openActivity(this, RegisterActivity.class);
     }
 }

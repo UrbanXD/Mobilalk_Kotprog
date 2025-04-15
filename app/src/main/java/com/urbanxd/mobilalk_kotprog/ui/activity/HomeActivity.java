@@ -8,6 +8,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -20,6 +21,7 @@ import com.urbanxd.mobilalk_kotprog.R;
 import com.urbanxd.mobilalk_kotprog.data.model.WaterMeterState;
 import com.urbanxd.mobilalk_kotprog.ui.components.AddStateBottomSheetDialogFragment;
 import com.urbanxd.mobilalk_kotprog.ui.components.WaterMeterStateAdapter;
+import com.urbanxd.mobilalk_kotprog.utils.Utils;
 import com.urbanxd.mobilalk_kotprog.viewmodel.UserViewModel;
 
 import java.util.ArrayList;
@@ -114,20 +116,14 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void logout(View view) {
-        openAddStateBottomSheet(view);
-//        firebaseAuth.signOut();
-//        openMainActivity();
-//        Toast.makeText(getApplicationContext(), getString(R.string.success_logout), Toast.LENGTH_SHORT).show();
+//        openAddStateBottomSheet(view);
+        firebaseAuth.signOut();
+        Utils.openActivity(this, MainActivity.class, true);
+        Utils.openToast(this, getString(R.string.success_logout));
     }
     ///  https://docs.google.com/spreadsheets/d/16DW3t5EAqHwCpE9dSO_Xyh4nyv5SOCTy2vXcO0nzRU8/edit?gid=528411539#gid=528411539
 
     public void openAddStateBottomSheet(View view) {
         AddStateBottomSheetDialogFragment.newInstance(1800).show(getSupportFragmentManager(), "AddStateBottomSheet");
-    }
-
-    public void openMainActivity() {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); /// uriti a stacket, hogy back buttonnal veletlen se lehessen pl ide visszakerulni
-        startActivity(intent);
     }
 }
