@@ -3,6 +3,7 @@
     <dimen name="large_font_size">50sp</dimen>
     <dimen name="medium_font_size">30sp</dimen>
     <dimen name="normal_font_size">22sp</dimen>
+    <dimen name="medium_small_font_size">18sp</dimen>
     <dimen name="small_font_size">12sp</dimen>
     <dimen name="tablet_error_text_font_size">19sp</dimen>
 
@@ -15,6 +16,8 @@
     <dimen name="medium_separator">36dp</dimen>
     <dimen name="separator">18dp</dimen>
     <dimen name="small_separator">9dp</dimen>
+
+    <dimen name="gap">4dp</dimen>
 
     <dimen name="min_touchable_layout_height">48dp</dimen>
 </resources>

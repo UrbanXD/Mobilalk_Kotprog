@@ -1,4 +1,4 @@
-package com.urbanxd.mobilalk_kotprog;
+package com.urbanxd.mobilalk_kotprog.ui.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,16 +13,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.urbanxd.mobilalk_kotprog.R;
+import com.urbanxd.mobilalk_kotprog.data.model.User;
+import com.urbanxd.mobilalk_kotprog.data.model.WaterMeter;
+import com.urbanxd.mobilalk_kotprog.data.model.WaterMeterState;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
-import java.util.UUID;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -50,8 +51,8 @@ public class RegisterActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         database = FirebaseFirestore.getInstance();
         userCollection = database.collection("users");
-        watermeterCollection = database.collection("watermeters");
-        watermeterStateCollection = database.collection("watermeterStates");
+        watermeterCollection = database.collection("waterMeters");
+        watermeterStateCollection = database.collection("waterMeterStates");
 
         emailInput = findViewById(R.id.emailInput);
         firstnameInput = findViewById(R.id.firstNameInput);
@@ -166,8 +167,23 @@ public class RegisterActivity extends AppCompatActivity {
 
         firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
             if (task.isSuccessful()) {
-                String userUID = Objects.requireNonNull(task.getResult().getUser()).getUid();
-                createUserProfile(userUID, firstname, lastname);
+                FirebaseUser firebaseUser = task.getResult().getUser();
+                if(firebaseUser == null) return;
+
+                User user = new User(firebaseUser, firstname, lastname);
+                userCollection
+                        .document(user.getId())
+                        .set(user)
+                        .addOnSuccessListener(aVoid -> {
+                            WaterMeter waterMeter = new WaterMeter(user.getId());
+                            watermeterCollection
+                                .document(waterMeter.getId())
+                                .set(waterMeter);
+
+                            WaterMeterState defaultWaterMeterState = new WaterMeterState(waterMeter.getId(), 0);
+                            watermeterStateCollection.add(defaultWaterMeterState);
+                        });
+
                 openHomeActivity();
                 Toast.makeText(getApplicationContext(), getString(R.string.success_register), Toast.LENGTH_SHORT).show();
                 return;
@@ -182,35 +198,6 @@ public class RegisterActivity extends AppCompatActivity {
 
             Toast.makeText(this, message, Toast.LENGTH_LONG).show();
         });
-    }
-
-    protected void createUserProfile (String userUID, String firstname, String lastname) {
-        Map<String, Object> userProfile = new HashMap<>();
-        userProfile.put("firstname", firstname);
-        userProfile.put("lastname", lastname);
-
-        userCollection
-                .document(userUID)
-                .set(userProfile)
-                .addOnSuccessListener(aVoid -> createWatermeter(userUID));
-    }
-
-    protected void createWatermeter (String userUID) {
-        String watermeterUID = UUID.randomUUID().toString();
-
-        Map<String, Object> watermeter = new HashMap<>();
-        watermeter.put("uuid", userUID);
-
-        watermeterCollection.document(watermeterUID).set(watermeter);
-        database
-            .collection("watermeters")
-            .document(watermeterUID).set(watermeter);
-
-        Map<String, Object> watermeterState = new HashMap<>();
-        watermeterState.put("watermeterID", watermeterUID);
-        watermeterState.put("date", Timestamp.now());
-        watermeterState.put("state", 0);
-        watermeterStateCollection.add(watermeterState);
     }
 
     public void openLoginActivity(View view) {

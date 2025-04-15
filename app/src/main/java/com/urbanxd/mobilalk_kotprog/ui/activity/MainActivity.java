@@ -1,4 +1,4 @@
-package com.urbanxd.mobilalk_kotprog;
+package com.urbanxd.mobilalk_kotprog.ui.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,6 +10,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.urbanxd.mobilalk_kotprog.R;
 
 public class MainActivity extends AppCompatActivity {
 

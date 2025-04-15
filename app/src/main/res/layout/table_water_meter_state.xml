@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@drawable/rounded_corner_25dp"
+    android:backgroundTint="@color/dark_blue"
+    android:paddingTop="@dimen/separator"
+    android:paddingHorizontal="@dimen/separator"
+    android:paddingBottom="@dimen/small_separator" >
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingHorizontal="@dimen/small_separator" >
+
+        <TextView
+            android:id="@+id/dateTextView"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:text="@string/date"
+            android:fontFamily="@font/gilroy_heavy"
+            android:textSize="@dimen/medium_small_font_size"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/stateTextView"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/waterMeterState"
+            android:fontFamily="@font/gilroy_heavy"
+            android:textSize="@dimen/medium_small_font_size"
+            android:textColor="@color/white"
+            android:textAlignment="textEnd" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/white"
+        android:layout_marginVertical="@dimen/small_separator" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/statesRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:contentDescription="@string/water_meter_states_table_alt" />
+
+    <LinearLayout
+        android:id="@+id/paginatorLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="gone" >
+
+        <ImageButton
+            android:id="@+id/prevPageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/back_button_alt"
+            android:src="@drawable/ic_chevron_left"
+            app:tint="@color/white" />
+
+        <TextView
+            android:id="@+id/paginatorInfoText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/small_separator"
+            android:textSize="@dimen/normal_font_size"
+            android:textColor="@color/white" />
+
+        <ImageButton
+            android:id="@+id/nextPageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/next_button_alt"
+            android:src="@drawable/ic_chevron_right"
+            app:tint="@color/white" />
+    </LinearLayout>
+</LinearLayout>

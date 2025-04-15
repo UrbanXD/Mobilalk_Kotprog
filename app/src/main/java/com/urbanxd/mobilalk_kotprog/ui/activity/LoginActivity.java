@@ -1,4 +1,4 @@
-package com.urbanxd.mobilalk_kotprog;
+package com.urbanxd.mobilalk_kotprog.ui.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.urbanxd.mobilalk_kotprog.R;
 
 import java.util.Objects;
 

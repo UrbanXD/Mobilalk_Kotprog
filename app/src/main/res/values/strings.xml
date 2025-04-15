@@ -31,4 +31,15 @@
     <string name="success_login">Sikeres bejelentkezés!</string>
     <string name="success_register">Sikeres regisztráció!</string>
     <string name="success_logout">Sikeres kijelentkezés!</string>
+    <string name="water_meter_states_table_alt">water meter states table content</string>
+    <string name="back_button_alt">Előző oldal</string>
+    <string name="next_button_alt">Következő oldal</string>
+    <string name="date">Dátum</string>
+    <string name="waterMeterState">Vízóra állás</string>
+    <string name="add">Hozzáad</string>
+    <string name="cancel">Mégse</string>
+    <string name="add_new_water_meter_state">Új Vízóra Állás Közététel</string>
+    <string name="minus">−</string>
+    <string name="plus">+</string>
+    <string name="zero">0</string>
 </resources>

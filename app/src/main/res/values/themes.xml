@@ -4,6 +4,7 @@
         <item name="android:fontFamily">@font/gilroy_medium</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:statusBarColor">@color/white</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
     </style>
 
     <style name="Theme.Mobilalk_Kotprog" parent="Base.Theme.Mobilalk_Kotprog" />

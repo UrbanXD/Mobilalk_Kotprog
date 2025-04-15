@@ -1,6 +1,7 @@
-package com.urbanxd.mobilalk_kotprog;
+package com.urbanxd.mobilalk_kotprog.data.model;
 
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.Exclude;
 
 public class User {
     private String firstname;
@@ -14,10 +15,12 @@ public class User {
         this.lastname = lastname;
     }
 
+    @Exclude
     public String getId() {
         return firebaseUser.getUid();
     }
 
+    @Exclude
     public String getEmail() {
         return firebaseUser.getEmail();
     }
@@ -30,11 +33,13 @@ public class User {
         return lastname;
     }
 
+    @Exclude
     public FirebaseUser getFirebaseUser() {
         return firebaseUser;
     }
 
-    public WaterMeter getUserWaterMeter() {
+    @Exclude
+    public WaterMeter getWaterMeter() {
         return waterMeter;
     }
 
