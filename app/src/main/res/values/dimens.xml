@@ -20,4 +20,5 @@
     <dimen name="gap">4dp</dimen>
 
     <dimen name="min_touchable_layout_height">48dp</dimen>
+    <dimen name="item_water_meter_state_height">56dp</dimen>
 </resources>

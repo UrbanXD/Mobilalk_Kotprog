@@ -1,14 +1,13 @@
 package com.urbanxd.mobilalk_kotprog.ui.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -36,7 +35,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private List<WaterMeterState> states;
     private int currentPage = 0;
-    private final int PAGE_SIZE = 5;
+    private final int PAGE_SIZE = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +52,17 @@ public class HomeActivity extends AppCompatActivity {
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         userViewModel.loadUser(firebaseUser);
 
+        userViewModel.isUserLoaded().observe(this, isLoaded -> {
+            if(!isLoaded) return;
+
+            RelativeLayout stateTableContainer = findViewById(R.id.stateTableContainer);
+            stateTableContainer.post(() -> {
+                stateTableContainer.setVisibility(View.VISIBLE);
+                Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
+                stateTableContainer.startAnimation(fadeIn);
+            });
+        });
+
         TextView welcomeText = findViewById(R.id.welcomeText);
         RecyclerView recyclerView = findViewById(R.id.statesRecyclerView);
         ImageButton prevPageButton = findViewById(R.id.prevPageButton);
@@ -61,7 +71,7 @@ public class HomeActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new WaterMeterStateAdapter(new ArrayList<>());
         recyclerView.setAdapter(adapter);
-        int elementHeight = getResources().getDimensionPixelSize(R.dimen.min_touchable_layout_height) + 2 * getResources().getDimensionPixelSize(R.dimen.gap);
+        int elementHeight = getResources().getDimensionPixelSize(R.dimen.item_water_meter_state_height) + 2 * getResources().getDimensionPixelSize(R.dimen.gap);
         int minHeight = elementHeight * PAGE_SIZE;
         recyclerView.setMinimumHeight(minHeight);
 
@@ -107,23 +117,19 @@ public class HomeActivity extends AppCompatActivity {
         int toIndex = Math.min(fromIndex + PAGE_SIZE, states.size());
         List<WaterMeterState> pageData = states.subList(fromIndex, toIndex);
 
-        int startItem = fromIndex + 1;
-        int endItem = toIndex == states.size() ? toIndex : toIndex + 1;
-        String paginatorInfoMessage =  startItem + " - " + endItem + " / " + states.size();
+        String paginatorInfoMessage =  fromIndex + 1 + " - " + toIndex + " / " + states.size();
         paginatorInfoText.setText(paginatorInfoMessage);
         adapter.updateStates(pageData);
         paginatorLayout.setVisibility(View.VISIBLE);
     }
 
     public void logout(View view) {
-//        openAddStateBottomSheet(view);
         firebaseAuth.signOut();
         Utils.openActivity(this, MainActivity.class, true);
         Utils.openToast(this, getString(R.string.success_logout));
     }
-    ///  https://docs.google.com/spreadsheets/d/16DW3t5EAqHwCpE9dSO_Xyh4nyv5SOCTy2vXcO0nzRU8/edit?gid=528411539#gid=528411539
 
     public void openAddStateBottomSheet(View view) {
-        AddStateBottomSheetDialogFragment.newInstance(1800).show(getSupportFragmentManager(), "AddStateBottomSheet");
+        AddStateBottomSheetDialogFragment.newInstance(userViewModel.getHighestWaterMeterState()).show(getSupportFragmentManager(), "AddStateBottomSheet");
     }
 }

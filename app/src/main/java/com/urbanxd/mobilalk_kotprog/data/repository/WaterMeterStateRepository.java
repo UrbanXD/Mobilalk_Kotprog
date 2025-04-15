@@ -19,11 +19,6 @@ public class WaterMeterStateRepository {
         waterMeterStateCollection = db.collection("waterMeterStates");
     }
 
-    public WaterMeterState getLastWaterMeterState() {
-        return null;
-    }
-
-
     public void getWaterMeterStates(WaterMeter waterMeter, Callback<ArrayList<WaterMeterState>> callback) {
         waterMeterStateCollection
             .whereEqualTo("waterMeterId", waterMeter.getId())
