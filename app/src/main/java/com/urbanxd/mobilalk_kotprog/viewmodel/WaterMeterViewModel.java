@@ -8,7 +8,6 @@ import com.urbanxd.mobilalk_kotprog.data.model.WaterMeter;
 import com.urbanxd.mobilalk_kotprog.data.model.WaterMeterState;
 import com.urbanxd.mobilalk_kotprog.data.repository.WaterMeterRepository;
 
-import java.util.Comparator;
 import java.util.Objects;
 
 public class WaterMeterViewModel extends ViewModel {
