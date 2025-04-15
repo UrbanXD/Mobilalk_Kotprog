@@ -27,7 +27,6 @@ public class WaterMeterViewModel extends ViewModel {
         if (waterMeter == null) {
             waterMeter = new WaterMeter(state.getWaterMeterId(), userId);
         }
-
         waterMeter.addState(state);
         waterMeterLiveData.setValue(waterMeter);
 

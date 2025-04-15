@@ -13,29 +13,30 @@ public class UserViewModel extends ViewModel {
     private final MutableLiveData<User> userLiveData = new MutableLiveData<>();
     private final WaterMeterViewModel waterMeterViewModel = new WaterMeterViewModel();
     private final UserRepository userRepository = new UserRepository();
+    private boolean loaded = false;
 
     public LiveData<User> getUserLiveData() {
         return userLiveData;
+    }
+
+    public boolean isLoaded() {
+        return loaded;
     }
 
     public void loadUser(FirebaseUser firebaseUser) {
 
         userRepository.getUser(firebaseUser, result -> {
             userLiveData.setValue(result.data);
-        });
 
-        if (firebaseUser == null) return;
-
-        waterMeterViewModel.loadWaterMeter(firebaseUser.getUid());
-
-        waterMeterViewModel.getWaterMeterLiveData().observeForever(waterMeter -> {
-            if (waterMeter != null) {
+            waterMeterViewModel.loadWaterMeter(firebaseUser.getUid());
+            waterMeterViewModel.getWaterMeterLiveData().observeForever(waterMeter -> {
                 User updatedUser = userLiveData.getValue();
                 if (updatedUser != null) {
                     updatedUser.setWaterMeter(waterMeter);
                     userLiveData.setValue(updatedUser);
                 }
-            }
+                loaded = true;
+            });
         });
     }
 

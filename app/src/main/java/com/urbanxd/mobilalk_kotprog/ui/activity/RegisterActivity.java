@@ -22,6 +22,8 @@ import com.urbanxd.mobilalk_kotprog.R;
 import com.urbanxd.mobilalk_kotprog.data.model.User;
 import com.urbanxd.mobilalk_kotprog.data.model.WaterMeter;
 import com.urbanxd.mobilalk_kotprog.data.model.WaterMeterState;
+import com.urbanxd.mobilalk_kotprog.data.repository.UserRepository;
+import com.urbanxd.mobilalk_kotprog.utils.Utils;
 
 import java.util.Objects;
 
@@ -41,12 +43,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("");
-        toolbar.setNavigationOnClickListener(v -> finish());
-        toolbar.setNavigationIcon(ContextCompat.getDrawable(this, R.drawable.ic_back_arrow));
+        Utils.backButtonToolbarOnCreate(this);
 
         firebaseAuth = FirebaseAuth.getInstance();
         database = FirebaseFirestore.getInstance();
@@ -170,21 +167,9 @@ public class RegisterActivity extends AppCompatActivity {
                 FirebaseUser firebaseUser = task.getResult().getUser();
                 if(firebaseUser == null) return;
 
-                User user = new User(firebaseUser, firstname, lastname);
-                userCollection
-                        .document(user.getId())
-                        .set(user)
-                        .addOnSuccessListener(aVoid -> {
-                            WaterMeter waterMeter = new WaterMeter(user.getId());
-                            watermeterCollection
-                                .document(waterMeter.getId())
-                                .set(waterMeter);
+                new UserRepository().createUser(firebaseUser, firstname, lastname);
 
-                            WaterMeterState defaultWaterMeterState = new WaterMeterState(waterMeter.getId(), 0);
-                            watermeterStateCollection.add(defaultWaterMeterState);
-                        });
-
-                openHomeActivity();
+                Utils.openActivity(this, HomeActivity.class, true);
                 Toast.makeText(getApplicationContext(), getString(R.string.success_register), Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -202,12 +187,6 @@ public class RegisterActivity extends AppCompatActivity {
 
     public void openLoginActivity(View view) {
         Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-    }
-
-    public void openHomeActivity() {
-        Intent intent = new Intent(this, HomeActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); /// uriti a stacket, hogy back buttonnal veletlen se lehessen pl ide visszakerulni
         startActivity(intent);
     }
 }

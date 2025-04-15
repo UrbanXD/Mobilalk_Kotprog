@@ -9,10 +9,12 @@ import com.urbanxd.mobilalk_kotprog.data.repository.callback.CallbackResult;
 
 public class UserRepository {
     private final CollectionReference userCollection;
+    private final WaterMeterRepository waterMeterRepository;
 
     public UserRepository() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         userCollection = db.collection("users");
+        waterMeterRepository = new WaterMeterRepository();
     }
 
     public void getUser(FirebaseUser firebaseUser, Callback<User> callback) {
@@ -35,6 +37,16 @@ public class UserRepository {
 
                 User user = new User(firebaseUser, firstname, lastname);
                 callback.onComplete(new CallbackResult<>(user));
+            });
+    }
+
+    public void createUser(FirebaseUser firebaseUser, String firstname, String lastname) {
+        User user = new User(firebaseUser, firstname, lastname);
+        userCollection
+            .document(user.getId())
+            .set(user)
+            .addOnSuccessListener(aVoid -> {
+                waterMeterRepository.createWaterMeter(user.getId());
             });
     }
 }

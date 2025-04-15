@@ -39,6 +39,17 @@ public class WaterMeterRepository {
             });
     }
 
+    public void createWaterMeter(String userId) {
+        WaterMeter waterMeter = new WaterMeter(userId);
+
+        waterMeterCollection
+            .document(waterMeter.getId())
+            .set(waterMeter)
+            .addOnSuccessListener(aVoid -> {
+                addNewStateToWaterMeter(new WaterMeterState(waterMeter.getId(), 0));
+            });
+    }
+
     public void addNewStateToWaterMeter(WaterMeterState state) {
         waterMeterStateRepository.createWaterMeterState(state);
 
