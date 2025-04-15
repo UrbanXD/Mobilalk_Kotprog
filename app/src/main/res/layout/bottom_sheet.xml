@@ -20,6 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
+        android:id="@+id/stateInputContainer"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -32,6 +33,8 @@
         <Button
             android:id="@+id/decreaseButton"
             android:text="@string/minus"
+            android:textColor="@color/black"
+            android:textSize="@dimen/medium_font_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -40,7 +43,7 @@
             android:autofillHints=""
             android:inputType="number"
             android:minHeight="@dimen/min_touchable_layout_height"
-            android:text="@string/zero"
+            android:hint="@string/zero"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
@@ -49,9 +52,19 @@
         <Button
             android:id="@+id/increaseButton"
             android:text="@string/plus"
+            android:textColor="@color/black"
+            android:textSize="@dimen/medium_font_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/stateError"
+        style="@style/AppErrorText"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/stateInputContainer" />
 
     <LinearLayout
         android:id="@+id/bottomSheetButtons"

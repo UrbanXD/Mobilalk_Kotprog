@@ -2,10 +2,7 @@ package com.urbanxd.mobilalk_kotprog.ui.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
@@ -17,8 +14,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.urbanxd.mobilalk_kotprog.R;
 import com.urbanxd.mobilalk_kotprog.utils.Utils;
-
-import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
 

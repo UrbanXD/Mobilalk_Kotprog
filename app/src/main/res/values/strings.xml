@@ -28,6 +28,7 @@
     <string name="email_already_registered_error">Az alábbi email-címmel már regisztráltak!</string>
     <string name="invalid_password">Legalább 6 karakter hosszú jelszóra van szükség</string>
     <string name="invalid_repeat_password">A jelszavak nem egyeznek</string>
+    <string name="invalid_new_water_meter_state">Óvatosan, visszafelé nem pöröghet az óra</string>
     <string name="success_login">Sikeres bejelentkezés!</string>
     <string name="success_register">Sikeres regisztráció!</string>
     <string name="success_logout">Sikeres kijelentkezés!</string>
