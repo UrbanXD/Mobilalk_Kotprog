@@ -6,6 +6,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -21,15 +22,14 @@ import com.urbanxd.mobilalk_kotprog.data.model.WaterMeterState;
 import com.urbanxd.mobilalk_kotprog.ui.components.AddStateBottomSheetDialogFragment;
 import com.urbanxd.mobilalk_kotprog.ui.components.WaterMeterStateAdapter;
 import com.urbanxd.mobilalk_kotprog.utils.Utils;
-import com.urbanxd.mobilalk_kotprog.viewmodel.UserViewModel;
+import com.urbanxd.mobilalk_kotprog.viewmodel.MainViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
-
     private FirebaseAuth firebaseAuth;
-    private UserViewModel userViewModel;
+    private MainViewModel mainViewModel;
 
     private WaterMeterStateAdapter adapter;
 
@@ -49,18 +49,26 @@ public class HomeActivity extends AppCompatActivity {
             return;
         }
 
-        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
-        userViewModel.loadUser(firebaseUser);
+        mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        mainViewModel.loadUser(firebaseUser);
+        mainViewModel.isLoaded().observe(this, isLoaded -> {
+            ProgressBar progressBar = findViewById(R.id.progressBar);
+            View activityContent = findViewById(R.id.activityContent);
 
-        userViewModel.isUserLoaded().observe(this, isLoaded -> {
-            if(!isLoaded) return;
+            if (isLoaded) {
+                progressBar.setVisibility(View.GONE);
+                activityContent.setVisibility(View.VISIBLE);
 
-            RelativeLayout stateTableContainer = findViewById(R.id.stateTableContainer);
-            stateTableContainer.post(() -> {
-                stateTableContainer.setVisibility(View.VISIBLE);
-                Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
-                stateTableContainer.startAnimation(fadeIn);
-            });
+                RelativeLayout stateTableContainer = findViewById(R.id.stateTableContainer);
+                stateTableContainer.post(() -> {
+                    stateTableContainer.setVisibility(View.VISIBLE);
+                    Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
+                    stateTableContainer.startAnimation(fadeIn);
+                });
+            } else {
+                progressBar.setVisibility(View.VISIBLE);
+                activityContent.setVisibility(View.GONE);
+            }
         });
 
         TextView welcomeText = findViewById(R.id.welcomeText);
@@ -89,7 +97,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        userViewModel.getUserLiveData().observe(this, user -> {
+        mainViewModel.getUserLiveData().observe(this, user -> {
             if (user == null) return;
 
             String welcomeMessage = "Üdv nálunk " + user.getLastname() + " " + user.getFirstname() + "!";
@@ -130,6 +138,6 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void openAddStateBottomSheet(View view) {
-        AddStateBottomSheetDialogFragment.newInstance(userViewModel.getHighestWaterMeterState()).show(getSupportFragmentManager(), "AddStateBottomSheet");
+        AddStateBottomSheetDialogFragment.newInstance(mainViewModel.getHighestWaterMeterState()).show(getSupportFragmentManager(), "AddStateBottomSheet");
     }
 }

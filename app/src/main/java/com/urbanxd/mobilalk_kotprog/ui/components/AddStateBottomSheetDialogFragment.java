@@ -20,12 +20,12 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.urbanxd.mobilalk_kotprog.R;
-import com.urbanxd.mobilalk_kotprog.viewmodel.UserViewModel;
+import com.urbanxd.mobilalk_kotprog.viewmodel.MainViewModel;
 
 public class AddStateBottomSheetDialogFragment extends BottomSheetDialogFragment {
     private static final String MIN_VALUE_ARG = "minValue";
 
-    private UserViewModel userViewModel;
+    private MainViewModel mainViewModel;
     private EditText stateInput;
     private TextView stateError;
     private long minValue = 0;
@@ -43,7 +43,7 @@ public class AddStateBottomSheetDialogFragment extends BottomSheetDialogFragment
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
+        mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
     }
 
     @Override
@@ -112,7 +112,7 @@ public class AddStateBottomSheetDialogFragment extends BottomSheetDialogFragment
                 return;
             }
 
-            userViewModel.addNewWaterMeterState(state);
+            mainViewModel.addNewWaterMeterState(state);
             dismiss();
         });
 

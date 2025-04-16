@@ -19,12 +19,12 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.urbanxd.mobilalk_kotprog.R;
 import com.urbanxd.mobilalk_kotprog.data.model.WaterMeterState;
-import com.urbanxd.mobilalk_kotprog.viewmodel.UserViewModel;
+import com.urbanxd.mobilalk_kotprog.viewmodel.MainViewModel;
 
 public class EditStateBottomSheetDialogFragment extends BottomSheetDialogFragment {
     private static final String WATER_METER_STATE_iD = "waterMeterStateId";
 
-    private UserViewModel userViewModel;
+    private MainViewModel mainViewModel;
     private EditText stateInput;
     private TextView stateError;
     private long minValue = 0;
@@ -43,7 +43,7 @@ public class EditStateBottomSheetDialogFragment extends BottomSheetDialogFragmen
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
+        mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
     }
 
     @Override
@@ -97,7 +97,7 @@ public class EditStateBottomSheetDialogFragment extends BottomSheetDialogFragmen
         }
 
         String waterMeterStateId = getArguments().getString(WATER_METER_STATE_iD, "");
-        waterMeterState = userViewModel.getWaterMeterStateById(waterMeterStateId);
+        waterMeterState = mainViewModel.getWaterMeterStateById(waterMeterStateId);
 
         if(savedInstanceState != null) {
             stateError.setText(savedInstanceState.getString("stateError", ""));
