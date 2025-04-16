@@ -1,6 +1,7 @@
 package com.urbanxd.mobilalk_kotprog.ui.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -73,6 +74,8 @@ public class HomeActivity extends AppCompatActivity {
 
         TextView welcomeText = findViewById(R.id.welcomeText);
         RecyclerView recyclerView = findViewById(R.id.statesRecyclerView);
+        TextView noStateFoundText = findViewById(R.id.noStateFound);
+        View paginatorView = findViewById(R.id.paginatorLayout);
         ImageButton prevPageButton = findViewById(R.id.prevPageButton);
         ImageButton nextPageButton = findViewById(R.id.nextPageButton);
 
@@ -82,6 +85,8 @@ public class HomeActivity extends AppCompatActivity {
         int elementHeight = getResources().getDimensionPixelSize(R.dimen.item_water_meter_state_height) + 2 * getResources().getDimensionPixelSize(R.dimen.gap);
         int minHeight = elementHeight * PAGE_SIZE;
         recyclerView.setMinimumHeight(minHeight);
+        noStateFoundText.setMinimumHeight(minHeight);
+
 
         prevPageButton.setOnClickListener(v -> {
             if (currentPage > 0) {
@@ -97,7 +102,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        mainViewModel.getUserLiveData().observe(this, user -> {
+        mainViewModel.getUserLiveData().observeForever(user -> {
             if (user == null) return;
 
             String welcomeMessage = "Üdv nálunk " + user.getLastname() + " " + user.getFirstname() + "!";
@@ -105,12 +110,23 @@ public class HomeActivity extends AppCompatActivity {
 
             if (user.getWaterMeter() == null) return;
 
-            states = user.getWaterMeter().getStates();;
+            states = user.getWaterMeter().getStates();
+
+            if(states.isEmpty()) {
+                noStateFoundText.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.GONE);
+                paginatorView.setVisibility(View.INVISIBLE);
+            } else {
+                noStateFoundText.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
+                paginatorView.setVisibility(View.VISIBLE);
+            }
+
             showPage(currentPage);
         });
 
 
-        LinearLayout logoAndTitle = findViewById(R.id.logoAndTitleContainer);
+        View logoAndTitle = findViewById(R.id.logoAndTitleContainer);
         logoAndTitle.post(() -> {
             Animation slideIn = AnimationUtils.loadAnimation(this, R.anim.slide_in_top);
             logoAndTitle.startAnimation(slideIn);
@@ -119,7 +135,6 @@ public class HomeActivity extends AppCompatActivity {
 
     private void showPage(int page) {
         TextView paginatorInfoText = findViewById(R.id.paginatorInfoText);
-        LinearLayout paginatorLayout = findViewById(R.id.paginatorLayout);
 
         int fromIndex = page * PAGE_SIZE;
         int toIndex = Math.min(fromIndex + PAGE_SIZE, states.size());
@@ -128,7 +143,6 @@ public class HomeActivity extends AppCompatActivity {
         String paginatorInfoMessage =  fromIndex + 1 + " - " + toIndex + " / " + states.size();
         paginatorInfoText.setText(paginatorInfoMessage);
         adapter.updateStates(pageData);
-        paginatorLayout.setVisibility(View.VISIBLE);
     }
 
     public void logout(View view) {

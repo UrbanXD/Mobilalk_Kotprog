@@ -54,13 +54,22 @@
         android:layout_weight="1"
         android:contentDescription="@string/water_meter_states_table_alt" />
 
+    <TextView
+        android:id="@+id/noStateFound"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_water_meter_state_found"
+        android:textSize="@dimen/medium_font_size"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:visibility="gone" />
+
     <LinearLayout
         android:id="@+id/paginatorLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:orientation="horizontal"
-        android:visibility="gone" >
+        android:orientation="horizontal" >
 
         <ImageButton
             android:id="@+id/prevPageButton"
