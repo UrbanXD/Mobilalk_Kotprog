@@ -10,6 +10,7 @@ import com.urbanxd.mobilalk_kotprog.data.model.WaterMeter;
 import com.urbanxd.mobilalk_kotprog.data.model.WaterMeterState;
 import com.urbanxd.mobilalk_kotprog.data.repository.UserRepository;
 import com.urbanxd.mobilalk_kotprog.data.repository.WaterMeterRepository;
+import com.urbanxd.mobilalk_kotprog.data.repository.WaterMeterStateRepository;
 
 import java.util.Objects;
 
@@ -20,6 +21,7 @@ public class MainViewModel extends ViewModel {
 
     private final UserRepository userRepository = new UserRepository();
     private final WaterMeterRepository waterMeterRepository = new WaterMeterRepository();
+    private final WaterMeterStateRepository waterMeterStateRepository = new WaterMeterStateRepository();
 
     public LiveData<User> getUserLiveData() {
         return userLiveData;
@@ -79,13 +81,18 @@ public class MainViewModel extends ViewModel {
         if(user == null) return;
 
         WaterMeterState newWaterMeterState = new WaterMeterState(user.getWaterMeter().getId(), state);
-        WaterMeter waterMeter = waterMeterLiveData.getValue();
-        if (waterMeter == null) {
-            waterMeter = new WaterMeter(newWaterMeterState.getWaterMeterId(), user.getId());
-        }
-        waterMeter.addState(newWaterMeterState);
-        waterMeterLiveData.setValue(waterMeter);
 
-        waterMeterRepository.addNewStateToWaterMeter(newWaterMeterState);
+        waterMeterStateRepository.createWaterMeterState(newWaterMeterState, _void -> {
+            loadWaterMeter(user.getId());
+        });
+    }
+
+    public void editWaterMeterState(WaterMeterState newState) {
+        User user = userLiveData.getValue();
+        if(user == null) return;
+
+        waterMeterStateRepository.editWaterMeterState(newState, _void -> {
+            loadWaterMeter(user.getId());
+        });
     }
 }

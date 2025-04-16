@@ -117,7 +117,8 @@ public class EditStateBottomSheetDialogFragment extends BottomSheetDialogFragmen
                 return;
             }
 
-//            userViewModel.addNewWaterMeterState(state);
+            waterMeterState.setState(state);
+            mainViewModel.editWaterMeterState(waterMeterState);
             dismiss();
         });
 

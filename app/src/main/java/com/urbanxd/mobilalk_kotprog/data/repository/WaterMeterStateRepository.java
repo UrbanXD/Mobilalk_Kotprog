@@ -44,6 +44,24 @@ public class WaterMeterStateRepository {
     }
 
     public void createWaterMeterState(WaterMeterState waterMeterState) {
-        waterMeterStateCollection.add(waterMeterState);
+        createWaterMeterState(waterMeterState, result -> {});
+    }
+
+    public void createWaterMeterState(WaterMeterState waterMeterState, Callback<?> callback) {
+        waterMeterStateCollection
+            .document(waterMeterState.getId())
+            .set(waterMeterState)
+            .addOnSuccessListener(_void -> {
+                callback.onComplete(null);
+            });
+    }
+
+    public void editWaterMeterState(WaterMeterState waterMeterState, Callback<?> callback) {
+        waterMeterStateCollection
+            .document(waterMeterState.getId())
+            .set(waterMeterState)
+            .addOnSuccessListener(_void -> {
+                callback.onComplete(null);
+            });
     }
 }

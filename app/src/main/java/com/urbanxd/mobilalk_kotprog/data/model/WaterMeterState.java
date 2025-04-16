@@ -6,6 +6,7 @@ import com.google.firebase.firestore.Exclude;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
+import java.util.UUID;
 
 public class WaterMeterState {
     private String id;
@@ -16,6 +17,7 @@ public class WaterMeterState {
     public WaterMeterState() { }
 
     public WaterMeterState(String waterMeterId, long state) {
+        this.id = String.valueOf(UUID.randomUUID());
         this.waterMeterId = waterMeterId;
         this.state = state;
         this.date = Timestamp.now();
