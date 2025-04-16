@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 public class WaterMeterState {
+    private String id;
     private String waterMeterId;
     private long state;
     private Timestamp date;
@@ -18,6 +19,15 @@ public class WaterMeterState {
         this.waterMeterId = waterMeterId;
         this.state = state;
         this.date = Timestamp.now();
+    }
+
+    @Exclude
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getWaterMeterId() {

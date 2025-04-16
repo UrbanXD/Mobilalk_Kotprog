@@ -35,6 +35,15 @@ public class WaterMeterViewModel extends ViewModel {
         return highestStateValue;
     }
 
+    public WaterMeterState getWaterMeterStateById(String id) {
+        for (WaterMeterState state : Objects.requireNonNull(waterMeterLiveData.getValue()).getStates()) {
+            if (Objects.equals(state.getId(), id)) {
+                return state;
+            }
+        }
+        return null;
+    }
+
     public void addNewState(String userId, WaterMeterState state) {
         WaterMeter waterMeter = waterMeterLiveData.getValue();
         if (waterMeter == null) {

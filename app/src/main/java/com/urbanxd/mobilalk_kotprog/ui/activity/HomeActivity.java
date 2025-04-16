@@ -132,8 +132,4 @@ public class HomeActivity extends AppCompatActivity {
     public void openAddStateBottomSheet(View view) {
         AddStateBottomSheetDialogFragment.newInstance(userViewModel.getHighestWaterMeterState()).show(getSupportFragmentManager(), "AddStateBottomSheet");
     }
-
-    public void openEditStateBottomSheet(View view) {
-
-    }
 }

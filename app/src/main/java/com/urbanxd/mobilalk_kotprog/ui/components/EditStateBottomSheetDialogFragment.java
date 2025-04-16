@@ -1,12 +1,10 @@
 package com.urbanxd.mobilalk_kotprog.ui.components;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -20,20 +18,22 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.urbanxd.mobilalk_kotprog.R;
+import com.urbanxd.mobilalk_kotprog.data.model.WaterMeterState;
 import com.urbanxd.mobilalk_kotprog.viewmodel.UserViewModel;
 
-public class AddStateBottomSheetDialogFragment extends BottomSheetDialogFragment {
-    private static final String MIN_VALUE_ARG = "minValue";
+public class EditStateBottomSheetDialogFragment extends BottomSheetDialogFragment {
+    private static final String WATER_METER_STATE_iD = "waterMeterStateId";
 
     private UserViewModel userViewModel;
     private EditText stateInput;
     private TextView stateError;
     private long minValue = 0;
+    private WaterMeterState waterMeterState;
 
-    public static AddStateBottomSheetDialogFragment newInstance(long state) {
-        AddStateBottomSheetDialogFragment fragment = new AddStateBottomSheetDialogFragment();
+    public static EditStateBottomSheetDialogFragment newInstance(String waterMeterStateId) {
+        EditStateBottomSheetDialogFragment fragment = new EditStateBottomSheetDialogFragment();
         Bundle args = new Bundle();
-        args.putLong(MIN_VALUE_ARG, state);
+        args.putString(WATER_METER_STATE_iD, waterMeterStateId);
         fragment.setArguments(args);
 
         return fragment;
@@ -60,7 +60,7 @@ public class AddStateBottomSheetDialogFragment extends BottomSheetDialogFragment
         @NonNull LayoutInflater inflater,
         @Nullable ViewGroup container,
         @Nullable Bundle savedInstanceState) {
-            return inflater.inflate(R.layout.add_state_bottom_sheet, container, false);
+            return inflater.inflate(R.layout.edit_state_bottom_sheet, container, false);
     }
 
     @Override
@@ -85,25 +85,30 @@ public class AddStateBottomSheetDialogFragment extends BottomSheetDialogFragment
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         stateInput = view.findViewById(R.id.stateInput);
         stateError = view.findViewById(R.id.stateError);
+        TextView dateText = view.findViewById(R.id.dateTextView);
         Button increaseButton = view.findViewById(R.id.increaseButton);
         Button decreaseButton = view.findViewById(R.id.decreaseButton);
-        Button addButton = view.findViewById(R.id.addButton);
+        Button editButton = view.findViewById(R.id.editButton);
         Button dismissButton = view.findViewById(R.id.dismissButton);
 
-        if (getArguments() != null) {
-            minValue = getArguments().getLong(MIN_VALUE_ARG, 0);
+        if (getArguments() == null) {
+            dismiss();
+            return;
         }
+
+        String waterMeterStateId = getArguments().getString(WATER_METER_STATE_iD, "");
+        waterMeterState = userViewModel.getWaterMeterStateById(waterMeterStateId);
 
         if(savedInstanceState != null) {
             stateError.setText(savedInstanceState.getString("stateError", ""));
             stateError.setVisibility(savedInstanceState.getInt("stateErrorVisibility", View.GONE));
         }
 
-        stateInput.setText(String.valueOf(minValue));
+        dateText.setText(waterMeterState.getFormatedDate());
+        stateInput.setText(String.valueOf(waterMeterState.getState()));
         stateInput.setFocusableInTouchMode(true);
-        stateInput.requestFocus();
 
-        addButton.setOnClickListener(v -> {
+        editButton.setOnClickListener(v -> {
             long state = getNumber(stateInput);
 
             if(state <= minValue) {
@@ -112,7 +117,7 @@ public class AddStateBottomSheetDialogFragment extends BottomSheetDialogFragment
                 return;
             }
 
-            userViewModel.addNewWaterMeterState(state);
+//            userViewModel.addNewWaterMeterState(state);
             dismiss();
         });
 
@@ -129,19 +134,6 @@ public class AddStateBottomSheetDialogFragment extends BottomSheetDialogFragment
                 stateInput.setText(String.valueOf(current - 1));
             }
         });
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        stateInput.postDelayed(() -> {
-            stateInput.requestFocus();
-            InputMethodManager imm = (InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-            if (imm != null) {
-                imm.showSoftInput(stateInput, InputMethodManager.SHOW_IMPLICIT);
-            }
-        }, 100);
     }
 
     private long getNumber(EditText editText) {

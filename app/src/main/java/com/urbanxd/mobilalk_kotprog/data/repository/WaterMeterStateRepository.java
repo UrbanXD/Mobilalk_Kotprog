@@ -32,7 +32,11 @@ public class WaterMeterStateRepository {
                     return;
                 }
                 for (DocumentSnapshot state : stateQuery.getDocuments()) {
-                    waterMeterStates.add(state.toObject(WaterMeterState.class));
+                    WaterMeterState newState = state.toObject(WaterMeterState.class);
+                    if(newState == null) break;
+
+                    newState.setId(state.getId());
+                    waterMeterStates.add(newState);
                 }
 
                callback.onComplete(new CallbackResult<>(waterMeterStates));

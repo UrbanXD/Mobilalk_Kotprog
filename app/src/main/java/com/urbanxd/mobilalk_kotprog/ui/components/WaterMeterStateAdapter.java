@@ -3,8 +3,11 @@ package com.urbanxd.mobilalk_kotprog.ui.components;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.urbanxd.mobilalk_kotprog.R;
@@ -21,10 +24,12 @@ public class WaterMeterStateAdapter extends RecyclerView.Adapter<WaterMeterState
     }
 
     public static class StateViewHolder extends RecyclerView.ViewHolder {
+        LinearLayout stateItemLayout;
         TextView dateTextView, stateTextView;
 
         public StateViewHolder(View itemView) {
             super(itemView);
+            stateItemLayout = itemView.findViewById(R.id.stateItemLayout);
             dateTextView = itemView.findViewById(R.id.dateTextView);
             stateTextView = itemView.findViewById(R.id.stateTextView);
         }
@@ -39,6 +44,13 @@ public class WaterMeterStateAdapter extends RecyclerView.Adapter<WaterMeterState
     @Override
     public void onBindViewHolder(StateViewHolder holder, int position) {
         WaterMeterState state = states.get(position);
+
+        holder.stateItemLayout.setOnClickListener(v -> {
+            FragmentManager fragmentManager = ((FragmentActivity) v.getContext()).getSupportFragmentManager();
+            EditStateBottomSheetDialogFragment
+                    .newInstance(state.getId())
+                    .show(fragmentManager, "EditStateBottomSheet");
+        });
         holder.dateTextView.setText(state.getFormatedDate());
         holder.stateTextView.setText(String.valueOf(state.getState()));
     }

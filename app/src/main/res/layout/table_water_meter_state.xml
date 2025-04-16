@@ -34,7 +34,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="@string/waterMeterState"
+            android:text="@string/water_meter_state"
             android:fontFamily="@font/gilroy_heavy"
             android:textSize="@dimen/medium_small_font_size"
             android:textColor="@color/white"

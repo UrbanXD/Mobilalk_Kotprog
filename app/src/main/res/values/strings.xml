@@ -36,7 +36,7 @@
     <string name="back_button_alt">Előző oldal</string>
     <string name="next_button_alt">Következő oldal</string>
     <string name="date">Dátum</string>
-    <string name="waterMeterState">Vízóra állás</string>
+    <string name="water_meter_state">Vízóra állás</string>
     <string name="add">Hozzáad</string>
     <string name="cancel">Mégse</string>
     <string name="add_new_water_meter_state">Új Vízóra Állás Közététel</string>
@@ -44,4 +44,6 @@
     <string name="plus">+</string>
     <string name="zero">0</string>
     <string name="add_new">Hozzáadás</string>
+    <string name="edit_water_meter_state">Vízóra Állás Módosítás</string>
+    <string name="edit">Módosít</string>
 </resources>

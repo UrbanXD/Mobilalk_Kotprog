@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:backgroundTint="@color/white"
+        android:paddingHorizontal="@dimen/activity_padding_horizontal"
+        android:paddingTop="@dimen/activity_padding_vertical"
+        android:paddingBottom="@dimen/separator" >
+
+        <TextView
+            android:id="@+id/bottomSheetTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/separator"
+            android:fontFamily="@font/gilroy_heavy"
+            android:text="@string/edit_water_meter_state"
+            android:textAlignment="center"
+            android:textSize="@dimen/medium_font_size"
+            android:textColor="@color/black" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/dateLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/date"
+                android:textColor="@color/black"
+                android:textSize="@dimen/normal_font_size"
+                android:fontFamily="@font/gilroy_heavy" />
+
+            <TextView
+                android:id="@+id/dateTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2025-04-16"
+                android:textColor="@color/gray"
+                android:textSize="@dimen/normal_font_size"
+                android:layout_marginTop="4dp" />
+
+            <TextView
+                android:id="@+id/stateLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/water_meter_state"
+                android:textColor="@color/black"
+                android:textSize="@dimen/normal_font_size"
+                android:fontFamily="@font/gilroy_heavy"
+                android:layout_marginTop="@dimen/separator" />
+
+            <LinearLayout
+                android:id="@+id/stateInputContainer"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center" >
+
+                <Button
+                    android:id="@+id/decreaseButton"
+                    android:text="@string/minus"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/medium_font_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <EditText
+                    style="@style/AppEditText"
+                    android:id="@+id/stateInput"
+                    android:autofillHints=""
+                    android:inputType="number"
+                    android:minHeight="@dimen/min_touchable_layout_height"
+                    android:hint="@string/zero"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="center" />
+
+                <Button
+                    android:id="@+id/increaseButton"
+                    android:text="@string/plus"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/medium_font_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/stateError"
+                style="@style/AppErrorText"
+                android:background="@color/gray"
+                android:gravity="center" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/bottomSheetButtons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/medium_separator"
+            android:orientation="horizontal"
+            android:gravity="center" >
+
+            <Button
+                android:id="@+id/editButton"
+                style="@style/AppButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:layout_marginEnd="@dimen/small_separator"
+                android:text="@string/edit"
+                android:textSize="@dimen/normal_font_size" />
+            <Button
+                android:id="@+id/dismissButton"
+                style="@style/AppButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/cancel"
+                android:textSize="@dimen/normal_font_size" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

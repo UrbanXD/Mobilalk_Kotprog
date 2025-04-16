@@ -46,6 +46,10 @@ public class UserViewModel extends ViewModel {
         return waterMeterViewModel.getHighestState();
     }
 
+    public WaterMeterState getWaterMeterStateById(String id) {
+        return waterMeterViewModel.getWaterMeterStateById(id);
+    }
+
     public void addNewWaterMeterState(long state) {
         User user = userLiveData.getValue();
         if(user == null) return;
