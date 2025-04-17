@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -89,7 +90,8 @@ public class EditStateBottomSheetDialogFragment extends BottomSheetDialogFragmen
         Button increaseButton = view.findViewById(R.id.increaseButton);
         Button decreaseButton = view.findViewById(R.id.decreaseButton);
         Button editButton = view.findViewById(R.id.editButton);
-        Button dismissButton = view.findViewById(R.id.dismissButton);
+        ImageButton deleteButton = view.findViewById(R.id.deleteButton);
+        ImageButton dismissButton = view.findViewById(R.id.dismissButton);
 
         if (getArguments() == null) {
             dismiss();
@@ -122,7 +124,14 @@ public class EditStateBottomSheetDialogFragment extends BottomSheetDialogFragmen
             dismiss();
         });
 
-        dismissButton.setOnClickListener(v -> dismiss());
+        dismissButton.setOnClickListener(v -> {
+            dismiss();
+        });
+
+        deleteButton.setOnClickListener(v -> {
+            mainViewModel.deleteWaterMeterState(waterMeterState.getId());
+            dismiss();
+        });
 
         increaseButton.setOnClickListener(v -> {
             long current = getNumber(stateInput);

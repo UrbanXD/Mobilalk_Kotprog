@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true" >
@@ -11,8 +12,16 @@
         android:gravity="center"
         android:backgroundTint="@color/white"
         android:paddingHorizontal="@dimen/activity_padding_horizontal"
-        android:paddingTop="@dimen/activity_padding_vertical"
+        android:paddingTop="@dimen/small_separator"
         android:paddingBottom="@dimen/separator" >
+
+        <ImageButton
+            android:id="@+id/dismissButton"
+            style="@style/AppIconButton"
+            android:contentDescription="@string/close"
+            android:src="@drawable/ic_close_icon"
+            app:tint="@color/black"
+            app:backgroundTint="@color/white" />
 
         <TextView
             android:id="@+id/bottomSheetTitle"
@@ -118,14 +127,14 @@
                 android:layout_marginEnd="@dimen/small_separator"
                 android:text="@string/edit"
                 android:textSize="@dimen/normal_font_size" />
-            <Button
-                android:id="@+id/dismissButton"
-                style="@style/AppButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/cancel"
-                android:textSize="@dimen/normal_font_size" />
+
+            <ImageButton
+                android:id="@+id/deleteButton"
+                style="@style/AppIconButton"
+                android:contentDescription="@string/delete"
+                android:src="@drawable/ic_trash_can"
+                app:tint="@color/black"
+                app:backgroundTint="@color/error" />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

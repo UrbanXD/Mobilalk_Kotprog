@@ -11,8 +11,19 @@
         android:backgroundTint="@color/white"
         android:minHeight="250dp"
         android:paddingHorizontal="@dimen/activity_padding_horizontal"
-        android:paddingTop="@dimen/activity_padding_vertical"
+        android:paddingTop="@dimen/small_separator"
         android:paddingBottom="@dimen/separator" >
+
+        <ImageButton
+            android:id="@+id/dismissButton"
+            style="@style/AppIconButton"
+            android:contentDescription="@string/close"
+            android:src="@drawable/ic_close_icon"
+            app:tint="@color/black"
+            app:backgroundTint="@color/white"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/bottomSheetTitle"
@@ -24,7 +35,7 @@
             android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/dismissButton" />
 
         <LinearLayout
             android:id="@+id/stateInputContainer"
@@ -89,16 +100,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:layout_marginEnd="@dimen/small_separator"
+                android:layout_marginHorizontal="@dimen/separator"
                 android:text="@string/add"
-                android:textSize="@dimen/normal_font_size" />
-            <Button
-                android:id="@+id/dismissButton"
-                style="@style/AppButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/cancel"
                 android:textSize="@dimen/normal_font_size" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -64,4 +64,13 @@ public class WaterMeterStateRepository {
                 callback.onComplete(null);
             });
     }
+
+    public void deleteWaterMeterState(String id, Callback<?> callback) {
+        waterMeterStateCollection
+            .document(id)
+            .delete()
+            .addOnSuccessListener(_void -> {
+                callback.onComplete(null);
+            });
+    }
 }

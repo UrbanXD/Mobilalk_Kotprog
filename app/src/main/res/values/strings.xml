@@ -47,4 +47,6 @@
     <string name="edit_water_meter_state">Vízóra Állás Módosítás</string>
     <string name="edit">Módosít</string>
     <string name="no_water_meter_state_found">Nem található lejelentett vízóra állás</string>
+    <string name="close">Bezár</string>
+    <string name="delete">Töröl</string>
 </resources>

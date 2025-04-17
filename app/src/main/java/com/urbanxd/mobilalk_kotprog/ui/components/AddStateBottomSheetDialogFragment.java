@@ -10,6 +10,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -88,7 +89,7 @@ public class AddStateBottomSheetDialogFragment extends BottomSheetDialogFragment
         Button increaseButton = view.findViewById(R.id.increaseButton);
         Button decreaseButton = view.findViewById(R.id.decreaseButton);
         Button addButton = view.findViewById(R.id.addButton);
-        Button dismissButton = view.findViewById(R.id.dismissButton);
+        ImageButton dismissButton = view.findViewById(R.id.dismissButton);
 
         if (getArguments() != null) {
             minValue = getArguments().getLong(MIN_VALUE_ARG, 0);

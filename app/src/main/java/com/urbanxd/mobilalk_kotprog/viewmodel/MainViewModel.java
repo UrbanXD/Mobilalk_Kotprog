@@ -95,4 +95,13 @@ public class MainViewModel extends ViewModel {
             loadWaterMeter(user.getId());
         });
     }
+
+    public void deleteWaterMeterState(String id) {
+        User user = userLiveData.getValue();
+        if(user == null) return;
+
+        waterMeterStateRepository.deleteWaterMeterState(id, _void -> {
+            loadWaterMeter(user.getId());
+        });
+    }
 }
