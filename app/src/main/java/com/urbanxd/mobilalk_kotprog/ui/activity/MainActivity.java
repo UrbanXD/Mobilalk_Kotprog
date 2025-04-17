@@ -1,13 +1,12 @@
 package com.urbanxd.mobilalk_kotprog.ui.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.LinearLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.urbanxd.mobilalk_kotprog.R;
@@ -22,11 +21,17 @@ public class MainActivity extends AppCompatActivity {
 
         if (FirebaseAuth.getInstance().getCurrentUser() != null) Utils.openActivity(this, HomeActivity.class, true);
 
-        LinearLayout logoAndTitle = findViewById(R.id.logoAndTitleContainer);
+        View logoAndTitle = findViewById(R.id.logoAndTitleContainer);
         logoAndTitle.post(() -> {
             Animation slideIn = AnimationUtils.loadAnimation(this, R.anim.slide_in_top);
             logoAndTitle.startAnimation(slideIn);
         });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Utils.handlePermissionResult(this, requestCode, permissions, grantResults);
     }
 
     public void openRegisterActivity(View view) {

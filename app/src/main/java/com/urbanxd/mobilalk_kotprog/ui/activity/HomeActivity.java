@@ -1,16 +1,20 @@
 package com.urbanxd.mobilalk_kotprog.ui.activity;
 
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -21,6 +25,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.urbanxd.mobilalk_kotprog.R;
 import com.urbanxd.mobilalk_kotprog.data.model.WaterMeterState;
 import com.urbanxd.mobilalk_kotprog.ui.components.AddStateBottomSheetDialogFragment;
+import com.urbanxd.mobilalk_kotprog.ui.components.NotificationJobService;
 import com.urbanxd.mobilalk_kotprog.ui.components.WaterMeterStateAdapter;
 import com.urbanxd.mobilalk_kotprog.utils.Utils;
 import com.urbanxd.mobilalk_kotprog.viewmodel.MainViewModel;
@@ -32,6 +37,7 @@ public class HomeActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private MainViewModel mainViewModel;
 
+    private JobScheduler jobScheduler;
     private WaterMeterStateAdapter adapter;
 
     private List<WaterMeterState> states;
@@ -42,6 +48,11 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        jobScheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+
+        SharedPreferences sharedPreferences = getSharedPreferences(Utils.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
+        boolean askForNotificationPermission = sharedPreferences.getBoolean(Utils.SHARED_PREFERENCE_ASK_FOR_NOTIFICATION_PERMISSION, false);
 
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
@@ -66,6 +77,14 @@ public class HomeActivity extends AppCompatActivity {
                     Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
                     stateTableContainer.startAnimation(fadeIn);
                 });
+
+                if (askForNotificationPermission) {
+                    Utils.sendNotification(this, "Sikeres teszt");
+
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean(Utils.SHARED_PREFERENCE_ASK_FOR_NOTIFICATION_PERMISSION, false);
+                    editor.apply();
+                }
             } else {
                 progressBar.setVisibility(View.VISIBLE);
                 activityContent.setVisibility(View.GONE);
@@ -86,7 +105,6 @@ public class HomeActivity extends AppCompatActivity {
         int minHeight = elementHeight * PAGE_SIZE;
         recyclerView.setMinimumHeight(minHeight);
         noStateFoundText.setMinimumHeight(minHeight);
-
 
         prevPageButton.setOnClickListener(v -> {
             if (currentPage > 0) {
@@ -131,6 +149,14 @@ public class HomeActivity extends AppCompatActivity {
             Animation slideIn = AnimationUtils.loadAnimation(this, R.anim.slide_in_top);
             logoAndTitle.startAnimation(slideIn);
         });
+
+        setJobScheduler();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Utils.handlePermissionResult(this, requestCode, permissions, grantResults);
     }
 
     private void showPage(int page) {
@@ -147,11 +173,28 @@ public class HomeActivity extends AppCompatActivity {
 
     public void logout(View view) {
         firebaseAuth.signOut();
+
+        SharedPreferences sharedPreferences = getSharedPreferences(Utils.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove(Utils.SHARED_PREFERENCE_USER_ID);
+        editor.apply();
+
         Utils.openActivity(this, MainActivity.class, true);
         Utils.openToast(this, getString(R.string.success_logout));
     }
 
     public void openAddStateBottomSheet(View view) {
         AddStateBottomSheetDialogFragment.newInstance(mainViewModel.getHighestWaterMeterState()).show(getSupportFragmentManager(), "AddStateBottomSheet");
+    }
+
+    public void setJobScheduler() {
+        ComponentName componentName = new ComponentName(getPackageName(), NotificationJobService.class.getName());
+        JobInfo.Builder builder =
+            new JobInfo
+                .Builder(0, componentName)
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED)
+                .setPeriodic(Utils.FIFTEEN_MINUTES);
+
+        jobScheduler.schedule(builder.build());
     }
 }

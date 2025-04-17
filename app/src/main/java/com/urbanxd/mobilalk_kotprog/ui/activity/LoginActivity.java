@@ -3,6 +3,8 @@ package com.urbanxd.mobilalk_kotprog.ui.activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
@@ -14,6 +16,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.urbanxd.mobilalk_kotprog.R;
 import com.urbanxd.mobilalk_kotprog.utils.Utils;
+
+import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -89,6 +93,13 @@ public class LoginActivity extends AppCompatActivity {
 
         firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
             if (task.isSuccessful()) {
+                try {
+                    SharedPreferences sharedPreferences = getSharedPreferences(Utils.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString(Utils.SHARED_PREFERENCE_USER_ID, Objects.requireNonNull(task.getResult().getUser()).getUid());
+                    editor.apply();
+                } catch (Exception ignored) { }
+
                 Utils.openActivity(this, HomeActivity.class, true);
                 Utils.openToast(this, getString(R.string.success_login));
                 return;

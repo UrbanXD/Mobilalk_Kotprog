@@ -2,10 +2,10 @@ package com.urbanxd.mobilalk_kotprog.ui.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
@@ -16,27 +16,17 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.urbanxd.mobilalk_kotprog.R;
-import com.urbanxd.mobilalk_kotprog.data.model.User;
-import com.urbanxd.mobilalk_kotprog.data.model.WaterMeter;
-import com.urbanxd.mobilalk_kotprog.data.model.WaterMeterState;
 import com.urbanxd.mobilalk_kotprog.data.repository.UserRepository;
 import com.urbanxd.mobilalk_kotprog.utils.Utils;
 
-import java.util.Objects;
-
 public class RegisterActivity extends AppCompatActivity {
-
     EditText emailInput, firstnameInput, lastnameInput, passwordInput, repeatPasswordInput;
     TextView emailError, firstnameError, lastnameError, passwordError, repeatPasswordError;
 
     private FirebaseAuth firebaseAuth;
-    private FirebaseFirestore database;
-    private CollectionReference userCollection;
-    private CollectionReference watermeterCollection;
-    private CollectionReference watermeterStateCollection;
+    private SharedPreferences sharedPreferences;
+    private boolean firstRegister;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,10 +36,8 @@ public class RegisterActivity extends AppCompatActivity {
         Utils.backButtonToolbarOnCreate(this);
 
         firebaseAuth = FirebaseAuth.getInstance();
-        database = FirebaseFirestore.getInstance();
-        userCollection = database.collection("users");
-        watermeterCollection = database.collection("waterMeters");
-        watermeterStateCollection = database.collection("waterMeterStates");
+        sharedPreferences = getSharedPreferences(Utils.SHARED_PREFERENCES_NAME, 0);
+        firstRegister = sharedPreferences.getBoolean(Utils.SHARED_PREFERENCE_FIRST_REGISTER, true);
 
         emailInput = findViewById(R.id.emailInput);
         firstnameInput = findViewById(R.id.firstNameInput);
@@ -102,6 +90,12 @@ public class RegisterActivity extends AppCompatActivity {
 
         repeatPasswordError.setText(savedInstanceState.getString("repeatPasswordError", ""));
         repeatPasswordError.setVisibility(savedInstanceState.getInt("repeatPasswordErrorVisibility", View.GONE));
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Utils.handlePermissionResult(this, requestCode, permissions, grantResults);
     }
 
     public void register(View view) {
@@ -167,10 +161,25 @@ public class RegisterActivity extends AppCompatActivity {
                 FirebaseUser firebaseUser = task.getResult().getUser();
                 if(firebaseUser == null) return;
 
+                try {
+                    SharedPreferences sharedPreferences = getSharedPreferences(Utils.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString(Utils.SHARED_PREFERENCE_USER_ID, firebaseUser.getUid());
+                    editor.apply();
+                } catch (Exception ignored) { }
+
                 new UserRepository().createUser(firebaseUser, firstname, lastname);
 
                 Utils.openActivity(this, HomeActivity.class, true);
-                Toast.makeText(getApplicationContext(), getString(R.string.success_register), Toast.LENGTH_SHORT).show();
+                Utils.openToast(getApplicationContext(), getString(R.string.success_register));
+
+                if (!firstRegister) return; //ha mar volt regisztralva akk stop
+
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean(Utils.SHARED_PREFERENCE_FIRST_REGISTER, false);
+                editor.putBoolean(Utils.SHARED_PREFERENCE_ASK_FOR_NOTIFICATION_PERMISSION, true);
+                editor.apply();
+
                 return;
             }
 
