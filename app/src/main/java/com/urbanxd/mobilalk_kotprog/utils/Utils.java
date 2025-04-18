@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -104,5 +105,23 @@ public final class Utils {
         activity.getSupportActionBar().setTitle("");
         toolbar.setNavigationOnClickListener(v -> activity.finish());
         toolbar.setNavigationIcon(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_back_arrow));
+    }
+
+    public static long getNumberTextInput(EditText input, long stepperValue, long minValue, long maxValue) {
+        String text = input.getText().toString().trim();
+
+        try {
+            return getValueInsideBounds(Long.parseLong(text) + stepperValue, minValue, maxValue);
+        } catch (NumberFormatException e) {
+            return minValue;
+        }
+    }
+
+    private static long getValueInsideBounds(long value, long minValue, long maxValue) {
+        long result = Math.max(value, minValue + 1);
+        if (maxValue > -1 && maxValue > minValue) result = Math.min(result, maxValue - 1);
+
+        if (result < 0) result = 0;
+        return result;
     }
 }

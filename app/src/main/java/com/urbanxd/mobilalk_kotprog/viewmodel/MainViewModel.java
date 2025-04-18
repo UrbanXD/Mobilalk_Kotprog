@@ -12,6 +12,7 @@ import com.urbanxd.mobilalk_kotprog.data.repository.UserRepository;
 import com.urbanxd.mobilalk_kotprog.data.repository.WaterMeterRepository;
 import com.urbanxd.mobilalk_kotprog.data.repository.WaterMeterStateRepository;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class MainViewModel extends ViewModel {
@@ -56,15 +57,12 @@ public class MainViewModel extends ViewModel {
         });
     }
 
-    public long getHighestWaterMeterState() {
-        long highestStateValue = 0;
-        for (WaterMeterState state : Objects.requireNonNull(waterMeterLiveData.getValue()).getStates()) {
-            if (state.getState() > highestStateValue) {
-                highestStateValue = state.getState();
-            }
-        }
+    public long getCurrentMaxBound() {
+        User user = userLiveData.getValue();
+        if(user == null) return -1;
 
-        return highestStateValue;
+        ArrayList<WaterMeterState> waterMeterStates= user.getWaterMeter().getStates();
+        return waterMeterStates.get(0).getState();
     }
 
     public WaterMeterState getWaterMeterStateById(String id) {

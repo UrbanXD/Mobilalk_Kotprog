@@ -2,6 +2,8 @@ package com.urbanxd.mobilalk_kotprog.ui.components;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +22,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.urbanxd.mobilalk_kotprog.R;
 import com.urbanxd.mobilalk_kotprog.data.model.WaterMeterState;
+import com.urbanxd.mobilalk_kotprog.utils.Utils;
 import com.urbanxd.mobilalk_kotprog.viewmodel.MainViewModel;
 
 public class EditStateBottomSheetDialogFragment extends BottomSheetDialogFragment {
@@ -29,6 +32,7 @@ public class EditStateBottomSheetDialogFragment extends BottomSheetDialogFragmen
     private EditText stateInput;
     private TextView stateError;
     private long minValue = 0;
+    private long maxValue = -1;
     private WaterMeterState waterMeterState;
 
     public static EditStateBottomSheetDialogFragment newInstance(String waterMeterStateId) {
@@ -100,6 +104,8 @@ public class EditStateBottomSheetDialogFragment extends BottomSheetDialogFragmen
 
         String waterMeterStateId = getArguments().getString(WATER_METER_STATE_iD, "");
         waterMeterState = mainViewModel.getWaterMeterStateById(waterMeterStateId);
+        minValue = waterMeterState.getStateBounds().minBound;
+        maxValue = waterMeterState.getStateBounds().maxBound;
 
         if(savedInstanceState != null) {
             stateError.setText(savedInstanceState.getString("stateError", ""));
@@ -108,10 +114,34 @@ public class EditStateBottomSheetDialogFragment extends BottomSheetDialogFragmen
 
         dateText.setText(waterMeterState.getFormatedDate());
         stateInput.setText(String.valueOf(waterMeterState.getState()));
+        stateInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() == 0) return;
+                try {
+                    long stateValue = Utils.getNumberTextInput(stateInput, 0, minValue, maxValue);
+                    String stateString = String.valueOf(stateValue);
+
+                    if (!s.toString().equals(stateString)){
+                        stateInput.setText(stateString);
+                        stateInput.setSelection(stateString.length());
+                    }
+                } catch (NumberFormatException e) {
+                    stateInput.setText(String.valueOf(minValue));
+                    stateInput.setSelection(1);
+                }
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+        });
         stateInput.setFocusableInTouchMode(true);
 
         editButton.setOnClickListener(v -> {
-            long state = getNumber(stateInput);
+            long state = Utils.getNumberTextInput(stateInput, 0, minValue, maxValue);
 
             if(state <= minValue) {
                 stateError.setText(getString(R.string.invalid_new_water_meter_state));
@@ -134,26 +164,17 @@ public class EditStateBottomSheetDialogFragment extends BottomSheetDialogFragmen
         });
 
         increaseButton.setOnClickListener(v -> {
-            long current = getNumber(stateInput);
-            stateInput.setText(String.valueOf(current + 1));
+            long newState = Utils.getNumberTextInput(stateInput, 1, minValue, maxValue);
+            String newStateString = String.valueOf(newState);
+            stateInput.setText(newStateString);
+            stateInput.setSelection(newStateString.length());
         });
 
         decreaseButton.setOnClickListener(v -> {
-            long current = getNumber(stateInput);
-            if (current > 0) {
-                stateInput.setText(String.valueOf(current - 1));
-            }
+            long newState = Utils.getNumberTextInput(stateInput, -1, minValue, maxValue);
+            String newStateString = String.valueOf(newState);
+            stateInput.setText(newStateString);
+            stateInput.setSelection(newStateString.length());
         });
-    }
-
-    private long getNumber(EditText editText) {
-        String text = editText.getText().toString().trim();
-
-        try {
-            long state = Long.parseLong(text);
-            return Math.max(state, minValue);
-        } catch (NumberFormatException e) {
-            return minValue;
-        }
     }
 }

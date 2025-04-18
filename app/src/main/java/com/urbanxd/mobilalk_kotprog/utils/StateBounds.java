@@ -2,7 +2,7 @@ package com.urbanxd.mobilalk_kotprog.utils;
 
 public class StateBounds {
     public long minBound = 0;
-    public Long maxBound = null;
+    public Long maxBound = -1L;
 
     public StateBounds() { }
 

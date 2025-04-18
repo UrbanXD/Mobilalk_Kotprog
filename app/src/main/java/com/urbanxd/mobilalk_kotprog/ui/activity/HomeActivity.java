@@ -185,7 +185,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void openAddStateBottomSheet(View view) {
-        AddStateBottomSheetDialogFragment.newInstance(mainViewModel.getHighestWaterMeterState()).show(getSupportFragmentManager(), "AddStateBottomSheet");
+        AddStateBottomSheetDialogFragment.newInstance(mainViewModel.getCurrentMaxBound()).show(getSupportFragmentManager(), "AddStateBottomSheet");
     }
 
     public void setJobScheduler() {
