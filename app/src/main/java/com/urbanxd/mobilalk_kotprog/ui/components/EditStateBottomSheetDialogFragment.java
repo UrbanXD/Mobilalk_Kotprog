@@ -112,7 +112,7 @@ public class EditStateBottomSheetDialogFragment extends BottomSheetDialogFragmen
             stateError.setVisibility(savedInstanceState.getInt("stateErrorVisibility", View.GONE));
         }
 
-        dateText.setText(waterMeterState.getFormatedDate());
+        dateText.setText(Utils.formatDate(waterMeterState.getDate()));
         stateInput.setText(String.valueOf(waterMeterState.getState()));
         stateInput.addTextChangedListener(new TextWatcher() {
             @Override

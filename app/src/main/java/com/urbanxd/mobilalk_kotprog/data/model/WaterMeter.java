@@ -3,7 +3,6 @@ package com.urbanxd.mobilalk_kotprog.data.model;
 import com.google.firebase.firestore.Exclude;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.UUID;
 
 public class WaterMeter {
@@ -35,13 +34,7 @@ public class WaterMeter {
         return states;
     }
 
-    public void addState(WaterMeterState newState) {
-        states.add(newState);
-        Collections.sort(states, (a, b) -> Long.compare(b.getDate().getSeconds(), a.getDate().getSeconds()));
-    }
-
     public void addStates(ArrayList<WaterMeterState> newStates) {
         states.addAll(newStates);
-        Collections.sort(states, (a, b) -> Long.compare(b.getDate().getSeconds(), a.getDate().getSeconds()));
     }
 }

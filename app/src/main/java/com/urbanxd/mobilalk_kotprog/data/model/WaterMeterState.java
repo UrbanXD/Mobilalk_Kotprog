@@ -4,9 +4,6 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.Exclude;
 import com.urbanxd.mobilalk_kotprog.utils.StateBounds;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimeZone;
 import java.util.UUID;
 
 public class WaterMeterState {
@@ -52,16 +49,6 @@ public class WaterMeterState {
 
     public Timestamp getDate() {
         return date;
-    }
-
-    @Exclude
-    public String getFormatedDate() {
-        Date date = getDate().toDate();
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
-        sdf.setTimeZone(TimeZone.getTimeZone("UTC+2"));
-
-        return sdf.format(date);
     }
 
     public void setDate(Timestamp date) {

@@ -15,10 +15,15 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.google.firebase.Timestamp;
 import com.urbanxd.mobilalk_kotprog.R;
 import com.urbanxd.mobilalk_kotprog.ui.components.NotificationHandler;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Objects;
+import java.util.TimeZone;
 
 public final class Utils {
     public static final String SHARED_PREFERENCES_NAME = "appPreferences";
@@ -123,5 +128,14 @@ public final class Utils {
 
         if (result < 0) result = 0;
         return result;
+    }
+
+    public static String formatDate(Timestamp timestamp) {
+        Date date = timestamp.toDate();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss", Locale.getDefault());
+        sdf.setTimeZone(TimeZone.getDefault());
+
+        return sdf.format(date);
     }
 }

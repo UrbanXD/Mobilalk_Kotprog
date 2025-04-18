@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.urbanxd.mobilalk_kotprog.R;
 import com.urbanxd.mobilalk_kotprog.data.model.WaterMeterState;
+import com.urbanxd.mobilalk_kotprog.utils.Utils;
 
 import java.util.List;
 
@@ -51,7 +52,7 @@ public class WaterMeterStateAdapter extends RecyclerView.Adapter<WaterMeterState
                     .newInstance(state.getId())
                     .show(fragmentManager, "EditStateBottomSheet");
         });
-        holder.dateTextView.setText(state.getFormatedDate());
+        holder.dateTextView.setText(Utils.formatDate(state.getDate()));
         holder.stateTextView.setText(String.valueOf(state.getState()));
     }
 
