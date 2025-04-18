@@ -45,7 +45,7 @@ public class WaterMeterRepository {
         waterMeterCollection
             .document(waterMeter.getId())
             .set(waterMeter)
-            .addOnSuccessListener(aVoid -> {
+            .addOnSuccessListener(_void -> {
                 waterMeterStateRepository.createWaterMeterState(new WaterMeterState(waterMeter.getId(), 0));
             });
     }

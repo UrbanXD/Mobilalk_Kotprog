@@ -1,7 +1,5 @@
 package com.urbanxd.mobilalk_kotprog.data.repository;
 
-import android.util.Log;
-
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.Timestamp;
@@ -17,6 +15,7 @@ import com.urbanxd.mobilalk_kotprog.data.repository.callback.CallbackResult;
 import com.urbanxd.mobilalk_kotprog.utils.StateBounds;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 public class WaterMeterStateRepository {
     private final CollectionReference waterMeterStateCollection;
@@ -33,24 +32,38 @@ public class WaterMeterStateRepository {
             .get()
             .addOnSuccessListener(stateQuery -> {
                 ArrayList<WaterMeterState> waterMeterStates = new ArrayList<>();
+                ArrayList<Task<Void>> boundTasks = new ArrayList<>();
 
                 if(stateQuery.isEmpty()) {
                     callback.onComplete(new CallbackResult<>(waterMeterStates));
                     return;
                 }
+
                 for (DocumentSnapshot state : stateQuery.getDocuments()) {
                     WaterMeterState newState = state.toObject(WaterMeterState.class);
-                    if(newState == null) break;
+                    if(newState == null) continue;
 
                     newState.setId(state.getId());
                     waterMeterStates.add(newState);
+
+                    Task<Void> task = getStateBoundsTask(newState)
+                        .continueWith(t -> {
+                            StateBounds bounds = t.getResult();
+                            newState.setStateBounds(bounds);
+
+                            return null;
+                        });
+                    boundTasks.add(task);
                 }
 
-               callback.onComplete(new CallbackResult<>(waterMeterStates));
+                Tasks.whenAllSuccess(boundTasks)
+                    .addOnSuccessListener(ignored -> {
+                        callback.onComplete(new CallbackResult<>(waterMeterStates));
+                    });
             });
     }
 
-    public void getStateBounds(WaterMeterState waterMeterState, Callback<StateBounds> callback) {
+    private Task<StateBounds> getStateBoundsTask(WaterMeterState waterMeterState) {
         Task<QuerySnapshot> minBoundTask = waterMeterStateCollection
             .whereEqualTo("waterMeterId", waterMeterState.getWaterMeterId())
             .whereLessThan("state", waterMeterState.getState())
@@ -65,41 +78,39 @@ public class WaterMeterStateRepository {
             .limit(1)
             .get();
 
-        Tasks.whenAllSuccess(minBoundTask, maxBoundTask)
-            .addOnSuccessListener(results -> {
+        return Tasks
+            .whenAllSuccess(minBoundTask, maxBoundTask)
+            .continueWith(task -> {
                 StateBounds stateBounds = new StateBounds();
 
-                QuerySnapshot minSnapshot = (QuerySnapshot) results.get(0);
-                QuerySnapshot maxSnapshot = (QuerySnapshot) results.get(1);
+                QuerySnapshot minSnapshot = (QuerySnapshot) task.getResult().get(0);
+                QuerySnapshot maxSnapshot = (QuerySnapshot) task.getResult().get(1);
 
                 if (!minSnapshot.isEmpty()) {
-                    Long stateValue = minSnapshot.getDocuments().get(0).getLong("state");
-                    if (stateValue != null) {
-                        stateBounds.setMinBound(stateValue);
-                    }
+                    Long min = minSnapshot.getDocuments().get(0).getLong("state");
+                    if (min != null) stateBounds.setMinBound(min);
                 }
 
                 if (!maxSnapshot.isEmpty()) {
-                    stateBounds.setMaxBound(maxSnapshot.getDocuments().get(0).getLong("state"));
+                    Long max = maxSnapshot.getDocuments().get(0).getLong("state");
+                    if (max != null) stateBounds.setMaxBound(max);
                 }
 
-                Log.d("BORDER_VALUES", "" + waterMeterState.getState()  + "minValue: " + stateBounds.minBound + ", maxValue: " + stateBounds.maxBound);
-                callback.onComplete(new CallbackResult<>(stateBounds));
+                return stateBounds;
             });
     }
 
     public void isNewStateCreatedInTheLast10Minutes(String waterMeterId, Callback<Boolean> callback) {
-        long tenMinutesAgoMillis = System.currentTimeMillis() - (10 * 60 * 1000); // 10 perc
-        Timestamp tenMinutesAgo = new Timestamp(tenMinutesAgoMillis / 1000, 0);
+        long fifteenMinutesAgoMillis = System.currentTimeMillis() - TimeUnit.MINUTES.toMillis(15);
+        Timestamp tenMinutesAgo = new Timestamp(fifteenMinutesAgoMillis / 1000, 0);
         waterMeterStateCollection
             .whereEqualTo("waterMeterId", waterMeterId)
             .whereGreaterThanOrEqualTo("date", tenMinutesAgo)
             .limit(1)
             .get()
             .addOnSuccessListener(stateQuery -> {
-                boolean hasNewState = !stateQuery.isEmpty();
-                Log.d("JOBSERVICE", "APAD FASZA " + stateQuery.size());
-                callback.onComplete(new CallbackResult<>(hasNewState));            })
+                callback.onComplete(new CallbackResult<>(!stateQuery.isEmpty()));
+            })
             .addOnFailureListener(_void -> {
                 callback.onComplete(new CallbackResult<>(true));
             });

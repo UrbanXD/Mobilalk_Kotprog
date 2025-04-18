@@ -25,7 +25,8 @@ public final class Utils {
     public static final String SHARED_PREFERENCE_ASK_FOR_NOTIFICATION_PERMISSION = "askForNotificationPermission";
     public static final String SHARED_PREFERENCE_USER_ID = "userId";
 
-    public static final long FIFTEEN_MINUTES = 15 * 60 * 1000L;
+    public static final int CREATE_NEW_STATE_NOTIFICATION_LATENCY_JOB_ID = 99;
+    public static final int CREATE_NEW_STATE_SEND_NOTIFICATION_JOB_ID = 100;
 
     private static String pendingNotificationMessage = null;
 

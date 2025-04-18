@@ -32,6 +32,7 @@ import com.urbanxd.mobilalk_kotprog.viewmodel.MainViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class HomeActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
@@ -191,9 +192,8 @@ public class HomeActivity extends AppCompatActivity {
         ComponentName componentName = new ComponentName(getPackageName(), NotificationJobService.class.getName());
         JobInfo.Builder builder =
             new JobInfo
-                .Builder(0, componentName)
-                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED)
-                .setPeriodic(Utils.FIFTEEN_MINUTES);
+                .Builder(Utils.CREATE_NEW_STATE_NOTIFICATION_LATENCY_JOB_ID, componentName)
+                .setMinimumLatency(TimeUnit.MINUTES.toMillis(15));
 
         jobScheduler.schedule(builder.build());
     }

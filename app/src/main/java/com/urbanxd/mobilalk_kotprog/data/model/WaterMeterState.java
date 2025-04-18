@@ -2,6 +2,7 @@ package com.urbanxd.mobilalk_kotprog.data.model;
 
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.Exclude;
+import com.urbanxd.mobilalk_kotprog.utils.StateBounds;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -12,6 +13,7 @@ public class WaterMeterState {
     private String id;
     private String waterMeterId;
     private long state;
+    private StateBounds stateBounds;
     private Timestamp date;
 
     public WaterMeterState() { }
@@ -64,5 +66,14 @@ public class WaterMeterState {
 
     public void setDate(Timestamp date) {
         this.date = date;
+    }
+
+    @Exclude
+    public StateBounds getStateBounds() {
+        return stateBounds;
+    }
+
+    public void setStateBounds(StateBounds stateBounds) {
+        this.stateBounds = stateBounds;
     }
 }
