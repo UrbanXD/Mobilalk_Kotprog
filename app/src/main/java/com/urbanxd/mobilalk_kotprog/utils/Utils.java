@@ -5,6 +5,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.os.Build;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -60,22 +63,36 @@ public final class Utils {
         Toast.makeText(context.getApplicationContext(), message, duration).show();
     }
 
-    public static void sendNotification(Activity activity, String message) {
-        Context context = activity.getBaseContext();
-        NotificationHandler notificationHandler = new NotificationHandler(context);
+    public static void getPostNotificationPermission(Activity activity) {
+        getPostNotificationPermission(activity, null);
+    }
 
+    public static void getPostNotificationPermission(Activity activity, String pendingMessage) {
+        Context context = activity.getBaseContext();
         if (
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
             ContextCompat.checkSelfPermission(context, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED
         ) {
-            pendingNotificationMessage = message;
+            if(pendingMessage != null) pendingNotificationMessage = pendingMessage;
+
             ActivityCompat.requestPermissions(
                 activity,
                 new String[]{Manifest.permission.POST_NOTIFICATIONS},
                 1001
             );
         }
+    }
 
+    public static void sendNotification(Context context, String message) {
+        NotificationHandler notificationHandler = new NotificationHandler(context);
+        notificationHandler.sendNotification(message);
+    }
+
+    public static void sendNotification(Activity activity, String message) {
+        Context context = activity.getBaseContext();
+        NotificationHandler notificationHandler = new NotificationHandler(context);
+
+        getPostNotificationPermission(activity, message);
         notificationHandler.sendNotification(message);
     }
     
@@ -137,5 +154,16 @@ public final class Utils {
         sdf.setTimeZone(TimeZone.getDefault());
 
         return sdf.format(date);
+    }
+
+    public static boolean checkConnectionIsUnavailable(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager == null) return true;
+
+        Network activeNetwork = connectivityManager.getActiveNetwork();
+        if (activeNetwork == null) return true;
+
+        NetworkCapabilities networkCapabilities = connectivityManager.getNetworkCapabilities(activeNetwork);
+        return networkCapabilities == null || !networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET);
     }
 }

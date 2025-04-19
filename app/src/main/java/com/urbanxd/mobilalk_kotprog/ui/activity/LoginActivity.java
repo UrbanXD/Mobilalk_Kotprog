@@ -25,6 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextView emailError, passwordError;
 
     private FirebaseAuth firebaseAuth;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +35,7 @@ public class LoginActivity extends AppCompatActivity {
         Utils.backButtonToolbarOnCreate(this);
 
         firebaseAuth = FirebaseAuth.getInstance();
+        sharedPreferences = getSharedPreferences(Utils.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
 
         emailInput = findViewById(R.id.emailInput);
         passwordInput = findViewById(R.id.passwordInput);
@@ -91,6 +93,11 @@ public class LoginActivity extends AppCompatActivity {
 
         if (hasError) return;
 
+        if (Utils.checkConnectionIsUnavailable(this)) {
+            Utils.openToast(this, "Internet kapcsolat szükséges!");
+            return;
+        }
+
         firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
             if (task.isSuccessful()) {
                 try {
@@ -102,6 +109,10 @@ public class LoginActivity extends AppCompatActivity {
 
                 Utils.openActivity(this, HomeActivity.class, true);
                 Utils.openToast(this, getString(R.string.success_login));
+
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean(Utils.SHARED_PREFERENCE_ASK_FOR_NOTIFICATION_PERMISSION, true);
+                editor.apply();
                 return;
             }
 

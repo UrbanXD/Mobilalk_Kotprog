@@ -4,7 +4,9 @@ import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
@@ -80,7 +82,7 @@ public class HomeActivity extends AppCompatActivity {
                 });
 
                 if (askForNotificationPermission) {
-                    Utils.sendNotification(this, "Sikeres teszt");
+                    Utils.sendNotification(this, "Üdvözlünk nálunk! Köszönjük, hogy minket választott vízóra állásának vezetésére.");
 
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putBoolean(Utils.SHARED_PREFERENCE_ASK_FOR_NOTIFICATION_PERMISSION, false);
@@ -188,7 +190,15 @@ public class HomeActivity extends AppCompatActivity {
         AddStateBottomSheetDialogFragment.newInstance(mainViewModel.getCurrentMaxBound()).show(getSupportFragmentManager(), "AddStateBottomSheet");
     }
 
+    public void openWebPage(View view) {
+        Uri uri = Uri.parse("https://www.szegedivizmu.hu");
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        startActivity(intent);
+    }
+
     public void setJobScheduler() {
+        Utils.getPostNotificationPermission(this);
+
         ComponentName componentName = new ComponentName(getPackageName(), NotificationJobService.class.getName());
         JobInfo.Builder builder =
             new JobInfo

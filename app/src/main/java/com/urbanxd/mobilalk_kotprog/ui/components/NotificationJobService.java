@@ -43,7 +43,7 @@ public class NotificationJobService extends JobService {
                 if (result.data == null) return;
 
                 waterMeterStateRepository.isNewStateCreatedInTheLast10Minutes(result.data.getId(), result2 -> {
-                    if (!result2.data) new NotificationHandler(getApplicationContext()).sendNotification("BIGG, pls add new state PLS");
+                    if (!result2.data) Utils.sendNotification(this, "Töltsön fel új vízóra állást!");;
                 });
             });
         }

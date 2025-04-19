@@ -36,7 +36,7 @@ public class RegisterActivity extends AppCompatActivity {
         Utils.backButtonToolbarOnCreate(this);
 
         firebaseAuth = FirebaseAuth.getInstance();
-        sharedPreferences = getSharedPreferences(Utils.SHARED_PREFERENCES_NAME, 0);
+        sharedPreferences = getSharedPreferences(Utils.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
         firstRegister = sharedPreferences.getBoolean(Utils.SHARED_PREFERENCE_FIRST_REGISTER, true);
 
         emailInput = findViewById(R.id.emailInput);
@@ -155,6 +155,11 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         if (hasError) return;
+
+        if (Utils.checkConnectionIsUnavailable(this)) {
+            Utils.openToast(this, "Internet kapcsolat szükséges!");
+            return;
+        }
 
         firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
             if (task.isSuccessful()) {
