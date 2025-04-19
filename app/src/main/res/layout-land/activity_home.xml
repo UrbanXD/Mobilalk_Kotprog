@@ -91,11 +91,27 @@
                     layout="@layout/table_water_meter_state" />
 
                 <Button
+                    android:id="@+id/addButton"
                     style="@style/AppButton"
                     android:text="@string/add_new"
                     android:onClick="openAddStateBottomSheet"
                     android:layout_marginTop="@dimen/separator"
                     android:layout_below="@id/stateTable" />
+
+                <TextView
+                    android:id="@+id/webPageText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="@dimen/min_touchable_layout_height"
+                    android:layout_marginTop="@dimen/small_separator"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:text="@string/link"
+                    android:textAlignment="center"
+                    android:textColor="@color/dark_blue"
+                    android:textSize="@dimen/normal_font_size"
+                    android:onClick="openWebPage"
+                    android:layout_below="@id/addButton" />
             </RelativeLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
