@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -68,6 +69,7 @@ public class EditStateBottomSheetDialogFragment extends BottomSheetDialogFragmen
             return inflater.inflate(R.layout.edit_state_bottom_sheet, container, false);
     }
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         BottomSheetDialog dialog = (BottomSheetDialog) super.onCreateDialog(savedInstanceState);
@@ -118,6 +120,7 @@ public class EditStateBottomSheetDialogFragment extends BottomSheetDialogFragmen
             @Override
             public void afterTextChanged(Editable s) {
                 if (s.length() == 0) return;
+
                 try {
                     long stateValue = Utils.getNumberTextInput(stateInput, 0, minValue, maxValue);
                     String stateString = String.valueOf(stateValue);
@@ -128,7 +131,7 @@ public class EditStateBottomSheetDialogFragment extends BottomSheetDialogFragmen
                     }
                 } catch (NumberFormatException e) {
                     stateInput.setText(String.valueOf(minValue));
-                    stateInput.setSelection(1);
+                    stateInput.setSelection(String.valueOf(minValue).length());
                 }
             }
 
@@ -151,15 +154,15 @@ public class EditStateBottomSheetDialogFragment extends BottomSheetDialogFragmen
 
             waterMeterState.setState(state);
             mainViewModel.editWaterMeterState(waterMeterState);
+            Utils.openToast(requireContext(), "Sikeres módosítás!", Toast.LENGTH_LONG);
             dismiss();
         });
 
-        dismissButton.setOnClickListener(v -> {
-            dismiss();
-        });
+        dismissButton.setOnClickListener(v -> dismiss());
 
         deleteButton.setOnClickListener(v -> {
             mainViewModel.deleteWaterMeterState(waterMeterState.getId());
+            Utils.openToast(requireContext(), "Sikeres törlés!", Toast.LENGTH_LONG);
             dismiss();
         });
 

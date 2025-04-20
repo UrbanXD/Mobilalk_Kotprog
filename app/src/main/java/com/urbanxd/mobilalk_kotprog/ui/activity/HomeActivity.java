@@ -169,6 +169,12 @@ public class HomeActivity extends AppCompatActivity {
         int toIndex = Math.min(fromIndex + PAGE_SIZE, states.size());
         List<WaterMeterState> pageData = states.subList(fromIndex, toIndex);
 
+        if (pageData.isEmpty() && page != 0) {
+           currentPage = Math.max(currentPage - 1, 0);
+           showPage(currentPage);
+           return;
+        }
+
         String paginatorInfoMessage =  fromIndex + 1 + " - " + toIndex + " / " + states.size();
         paginatorInfoText.setText(paginatorInfoMessage);
         adapter.updateStates(pageData);

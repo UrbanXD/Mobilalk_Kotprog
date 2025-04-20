@@ -3,6 +3,8 @@ package com.urbanxd.mobilalk_kotprog.ui.components;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,6 +24,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.urbanxd.mobilalk_kotprog.R;
+import com.urbanxd.mobilalk_kotprog.utils.Utils;
 import com.urbanxd.mobilalk_kotprog.viewmodel.MainViewModel;
 
 public class AddStateBottomSheetDialogFragment extends BottomSheetDialogFragment {
@@ -64,6 +68,7 @@ public class AddStateBottomSheetDialogFragment extends BottomSheetDialogFragment
             return inflater.inflate(R.layout.add_state_bottom_sheet, container, false);
     }
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         BottomSheetDialog dialog = (BottomSheetDialog) super.onCreateDialog(savedInstanceState);
@@ -100,12 +105,37 @@ public class AddStateBottomSheetDialogFragment extends BottomSheetDialogFragment
             stateError.setVisibility(savedInstanceState.getInt("stateErrorVisibility", View.GONE));
         }
 
-        stateInput.setText(String.valueOf(minValue));
+        stateInput.setText(String.valueOf(minValue + 1));
+        stateInput.setSelection(String.valueOf(minValue + 1).length());
+        stateInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() == 0) return;
+
+                try {
+                    long stateValue = Utils.getNumberTextInput(stateInput, 0, minValue, -1);
+                    String stateString = String.valueOf(stateValue);
+
+                    if (!s.toString().equals(stateString)){
+                        stateInput.setText(stateString);
+                        stateInput.setSelection(stateString.length());
+                    }
+                } catch (NumberFormatException e) {
+                    stateInput.setText(String.valueOf(minValue + 1));
+                    stateInput.setSelection(String.valueOf(minValue + 1).length());
+                }
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+        });
         stateInput.setFocusableInTouchMode(true);
-        stateInput.requestFocus();
 
         addButton.setOnClickListener(v -> {
-            long state = getNumber(stateInput);
+            long state = Utils.getNumberTextInput(stateInput, 0, minValue, -1);
 
             if(state <= minValue) {
                 stateError.setText(getString(R.string.invalid_new_water_meter_state));
@@ -114,21 +144,24 @@ public class AddStateBottomSheetDialogFragment extends BottomSheetDialogFragment
             }
 
             mainViewModel.addNewWaterMeterState(state);
+            Utils.openToast(requireContext(), "Sikeresen felvitte a vízórájának állását!", Toast.LENGTH_LONG);
             dismiss();
         });
 
         dismissButton.setOnClickListener(v -> dismiss());
 
         increaseButton.setOnClickListener(v -> {
-            long current = getNumber(stateInput);
-            stateInput.setText(String.valueOf(current + 1));
+            long newState = Utils.getNumberTextInput(stateInput, 1, minValue, -1);
+            String newStateString = String.valueOf(newState);
+            stateInput.setText(newStateString);
+            stateInput.setSelection(newStateString.length());
         });
 
         decreaseButton.setOnClickListener(v -> {
-            long current = getNumber(stateInput);
-            if (current > 0) {
-                stateInput.setText(String.valueOf(current - 1));
-            }
+            long newState = Utils.getNumberTextInput(stateInput, -1, minValue, -1);
+            String newStateString = String.valueOf(newState);
+            stateInput.setText(newStateString);
+            stateInput.setSelection(newStateString.length());
         });
     }
 
@@ -142,17 +175,6 @@ public class AddStateBottomSheetDialogFragment extends BottomSheetDialogFragment
             if (imm != null) {
                 imm.showSoftInput(stateInput, InputMethodManager.SHOW_IMPLICIT);
             }
-        }, 100);
-    }
-
-    private long getNumber(EditText editText) {
-        String text = editText.getText().toString().trim();
-
-        try {
-            long state = Long.parseLong(text);
-            return Math.max(state, minValue);
-        } catch (NumberFormatException e) {
-            return minValue;
-        }
+        }, 250);
     }
 }

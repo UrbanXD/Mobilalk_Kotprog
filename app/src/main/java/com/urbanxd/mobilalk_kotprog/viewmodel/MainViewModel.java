@@ -62,14 +62,14 @@ public class MainViewModel extends ViewModel {
         if(user == null) return -1;
 
         ArrayList<WaterMeterState> waterMeterStates= user.getWaterMeter().getStates();
+        if (waterMeterStates.isEmpty()) return -1;
+
         return waterMeterStates.get(0).getState();
     }
 
     public WaterMeterState getWaterMeterStateById(String id) {
         for (WaterMeterState state : Objects.requireNonNull(waterMeterLiveData.getValue()).getStates()) {
-            if (Objects.equals(state.getId(), id)) {
-                return state;
-            }
+            if (Objects.equals(state.getId(), id)) return state;
         }
         return null;
     }
