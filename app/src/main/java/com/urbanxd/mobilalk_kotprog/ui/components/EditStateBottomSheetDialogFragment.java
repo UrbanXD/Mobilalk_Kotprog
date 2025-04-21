@@ -1,12 +1,15 @@
 package com.urbanxd.mobilalk_kotprog.ui.components;
 
 import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -35,6 +38,7 @@ public class EditStateBottomSheetDialogFragment extends BottomSheetDialogFragmen
     private long minValue = 0;
     private long maxValue = -1;
     private WaterMeterState waterMeterState;
+    private static boolean isShowing = false;
 
     public static EditStateBottomSheetDialogFragment newInstance(String waterMeterStateId) {
         EditStateBottomSheetDialogFragment fragment = new EditStateBottomSheetDialogFragment();
@@ -43,6 +47,10 @@ public class EditStateBottomSheetDialogFragment extends BottomSheetDialogFragmen
         fragment.setArguments(args);
 
         return fragment;
+    }
+
+    public static boolean isShowing() {
+        return isShowing;
     }
 
     @Override
@@ -183,5 +191,19 @@ public class EditStateBottomSheetDialogFragment extends BottomSheetDialogFragmen
             stateInput.setText(newStateString);
             stateInput.setSelection(newStateString.length());
         });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        isShowing = true;
+    }
+
+    @Override
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        super.onDismiss(dialog);
+
+        isShowing = false;
     }
 }

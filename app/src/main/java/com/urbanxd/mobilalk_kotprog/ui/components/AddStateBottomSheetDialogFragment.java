@@ -2,6 +2,7 @@ package com.urbanxd.mobilalk_kotprog.ui.components;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -34,6 +35,7 @@ public class AddStateBottomSheetDialogFragment extends BottomSheetDialogFragment
     private EditText stateInput;
     private TextView stateError;
     private long minValue = 0;
+    private static boolean isShowing = false;
 
     public static AddStateBottomSheetDialogFragment newInstance(long state) {
         AddStateBottomSheetDialogFragment fragment = new AddStateBottomSheetDialogFragment();
@@ -42,6 +44,10 @@ public class AddStateBottomSheetDialogFragment extends BottomSheetDialogFragment
         fragment.setArguments(args);
 
         return fragment;
+    }
+
+    public static boolean isShowing() {
+        return isShowing;
     }
 
     @Override
@@ -173,6 +179,7 @@ public class AddStateBottomSheetDialogFragment extends BottomSheetDialogFragment
     public void onStart() {
         super.onStart();
 
+        isShowing = true;
         stateInput.postDelayed(() -> {
             stateInput.requestFocus();
             InputMethodManager imm = (InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -180,5 +187,12 @@ public class AddStateBottomSheetDialogFragment extends BottomSheetDialogFragment
                 imm.showSoftInput(stateInput, InputMethodManager.SHOW_IMPLICIT);
             }
         }, 250);
+    }
+
+    @Override
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        super.onDismiss(dialog);
+
+        isShowing = false;
     }
 }

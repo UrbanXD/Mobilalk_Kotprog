@@ -193,6 +193,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void openAddStateBottomSheet(View view) {
+        if (AddStateBottomSheetDialogFragment.isShowing()) return;
         AddStateBottomSheetDialogFragment.newInstance(mainViewModel.getCurrentMaxBound()).show(getSupportFragmentManager(), "AddStateBottomSheet");
     }
 

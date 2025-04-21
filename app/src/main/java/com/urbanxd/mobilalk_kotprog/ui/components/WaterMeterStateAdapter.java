@@ -48,9 +48,9 @@ public class WaterMeterStateAdapter extends RecyclerView.Adapter<WaterMeterState
 
         holder.stateItemLayout.setOnClickListener(v -> {
             FragmentManager fragmentManager = ((FragmentActivity) v.getContext()).getSupportFragmentManager();
-            EditStateBottomSheetDialogFragment
-                    .newInstance(state.getId())
-                    .show(fragmentManager, "EditStateBottomSheet");
+
+            if (EditStateBottomSheetDialogFragment.isShowing()) return;
+            EditStateBottomSheetDialogFragment.newInstance(state.getId()).show(fragmentManager, "EditStateBottomSheet");
         });
         holder.dateTextView.setText(Utils.formatDate(state.getDate()));
         holder.stateTextView.setText(String.valueOf(state.getState()));
