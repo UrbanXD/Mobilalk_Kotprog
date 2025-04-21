@@ -101,18 +101,21 @@ public class LoginActivity extends AppCompatActivity {
         firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
             if (task.isSuccessful()) {
                 try {
+                    Utils.openActivity(this, HomeActivity.class, true);
+                    Utils.openToast(this, getString(R.string.success_login));
+
                     SharedPreferences sharedPreferences = getSharedPreferences(Utils.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
+                    boolean firstAuth = sharedPreferences.getBoolean(Utils.SHARED_PREFERENCE_FIRST_AUTH, true);
+
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString(Utils.SHARED_PREFERENCE_USER_ID, Objects.requireNonNull(task.getResult().getUser()).getUid());
+                    if (firstAuth) {
+                        editor.putBoolean(Utils.SHARED_PREFERENCE_ASK_FOR_NOTIFICATION_PERMISSION, true);
+                        editor.putBoolean(Utils.SHARED_PREFERENCE_FIRST_AUTH, false);
+                    }
                     editor.apply();
                 } catch (Exception ignored) { }
 
-                Utils.openActivity(this, HomeActivity.class, true);
-                Utils.openToast(this, getString(R.string.success_login));
-
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean(Utils.SHARED_PREFERENCE_ASK_FOR_NOTIFICATION_PERMISSION, true);
-                editor.apply();
                 return;
             }
 

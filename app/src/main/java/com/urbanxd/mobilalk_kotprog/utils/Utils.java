@@ -30,7 +30,7 @@ import java.util.TimeZone;
 
 public final class Utils {
     public static final String SHARED_PREFERENCES_NAME = "appPreferences";
-    public static final String SHARED_PREFERENCE_FIRST_REGISTER = "firstRegister";
+    public static final String SHARED_PREFERENCE_FIRST_AUTH = "firstAuth";
     public static final String SHARED_PREFERENCE_ASK_FOR_NOTIFICATION_PERMISSION = "askForNotificationPermission";
     public static final String SHARED_PREFERENCE_USER_ID = "userId";
 

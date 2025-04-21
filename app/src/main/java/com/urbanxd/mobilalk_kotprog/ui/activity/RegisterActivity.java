@@ -26,7 +26,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
     private SharedPreferences sharedPreferences;
-    private boolean firstRegister;
+    private boolean firstAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +37,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
         sharedPreferences = getSharedPreferences(Utils.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
-        firstRegister = sharedPreferences.getBoolean(Utils.SHARED_PREFERENCE_FIRST_REGISTER, true);
+        firstAuth = sharedPreferences.getBoolean(Utils.SHARED_PREFERENCE_FIRST_AUTH, true);
 
         emailInput = findViewById(R.id.emailInput);
         firstnameInput = findViewById(R.id.firstNameInput);
@@ -178,10 +178,10 @@ public class RegisterActivity extends AppCompatActivity {
                 Utils.openActivity(this, HomeActivity.class, true);
                 Utils.openToast(getApplicationContext(), getString(R.string.success_register));
 
-                if (!firstRegister) return; //ha mar volt regisztralva akk stop
+                if (!firstAuth) return; //ha mar volt regisztralva akk stop
 
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean(Utils.SHARED_PREFERENCE_FIRST_REGISTER, false);
+                editor.putBoolean(Utils.SHARED_PREFERENCE_FIRST_AUTH, false);
                 editor.putBoolean(Utils.SHARED_PREFERENCE_ASK_FOR_NOTIFICATION_PERMISSION, true);
                 editor.apply();
 
