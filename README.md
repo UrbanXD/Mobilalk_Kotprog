@@ -21,6 +21,8 @@ Vizóra alkalmazás
 ## 2. mérföldkő pontozás segitség:
 - **Rövid leírás: Login / Register után bedob a Home activityre (logout a képernyő tetején lévő ikonnal lehet, welcome text felett), itt egy táblát látsz állapotokkal ezekhez hozzá tudsz adni új állapotokat (ÚJ ÁLLAPOT MINDIG NAGYOBB MINT A LEGUTOLSÓ ÁLLAPOT, nem is enged rossz inputot a mező). A táblák 4 elemet jelenitenek meg egy oldalon, a tábla alján lévő nyilakkal lépegethetsz. Egy állapotra kattintva egy edit bottom sheet ugrik fel, itt vagy módosíthatod vagy törölheted az állapotot. A módosításnál nem lehet nagyobb az értéke az utána következőtől és kisebb sem mint az előtte lévő (a mező ezt kezeli is és nem enged rossz adatot megadni).**
 
+- **Notification tesztelésre: Első login / register után ha elfogadod a notificationos permissiont akkor rögtön jönnie kell a notifynek, emellett a job scheduler is notifyt küld, erre viszont min 15percet várnod kell (sőt mivel ellenőrzi, hogy mikor jött létre utoljára stated ezért igazából kb 30p, sorry periodikusság miatt ez volt a minimum, ja és sztem fejezted akkor töröld az appot / tiltsd le a notifyt, mert minden 15p-ben fogja azt küldeni :D)** 
+
 - Fordítási és Futtatási hiba sincs benne (nálam :D) - A bottomsheet fragmenteknél az ide jelezhet hibát, de fordítási és futtatási hibát se okoz, ide bug gradle resync megoldja (de enélkül is nyugodtan futtatható az app)
 
 - Firebase Autentikáció megvalósítva a ``RegisterActivity``-be és ``LoginActivity``-be látható. A bejelentkezett felhasználó a ``HomeActivity``-re kerül, ahol egyéb dolgokat kezelhet, kijelentkezni pedig az oldal tetején lévő ikonnal tud
