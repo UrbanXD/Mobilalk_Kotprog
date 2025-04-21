@@ -110,7 +110,11 @@ public class AddStateBottomSheetDialogFragment extends BottomSheetDialogFragment
         stateInput.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.length() == 0) return;
+                if (s.length() == 0) {
+                    stateInput.setText(String.valueOf(minValue));
+                    stateInput.setSelection(String.valueOf(minValue).length());
+                    return;
+                }
 
                 try {
                     long stateValue = Utils.getNumberTextInput(stateInput, 0, minValue, -1);
