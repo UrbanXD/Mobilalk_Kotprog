@@ -41,7 +41,7 @@ Vizóra alkalmazás
 
 - Intentek: Minden Activity között intentel van megoldva a navigáció és minden activity el is érhető.
 
-- Legalább 1 Lifecycle Hook: onStart van használva a ``main/java/com/urbanxd/mobilalk_kotprog/ui/components/AddStateBottomSheetDialogFragment.java`` 169. sorától. Funkcionalitása, hogy megnyitás után vár 250ms-t majd autofocus az input mezőre, illetve beállítja, hogy meg van-e már nyitva olyan bottom sheet. (Edit bottom sheetbe is benne van, csak ott nincs autofocus)
+- Legalább 1 Lifecycle Hook: onStart van használva a ``main/java/com/urbanxd/mobilalk_kotprog/ui/components/AddStateBottomSheetDialogFragment.java`` 180. sorától. Funkcionalitása, hogy megnyitás után vár 250ms-t majd autofocus az input mezőre, illetve beállítja, hogy meg van-e már nyitva olyan bottom sheet. (Edit bottom sheetbe is benne van, csak ott nincs autofocus)
 
 - Legalább 2 Android erőforrás használata (permissionnel): Egyik az ACCESS_NETWORK_STATE + INTERNET, másik meg a POST_NOTIFICATION. Az internet checkolva van login és register előtt Utilsba megtalálható a kód (emulatoron én úgy teszteltem, hogy repülő üzemmódba raktam). Notification küldés előtt pedig checkolva van, hogy van-e permission ha nincs akkor kér, ha épp tud (``main/java/com/urbanxd/mobilalk_kotprog/ui/activity/HomeActivity.java`` egyéb hozzátartozó dolgok Utilsba). 
 
