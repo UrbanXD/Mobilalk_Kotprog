@@ -206,4 +206,9 @@ public class EditStateBottomSheetDialogFragment extends BottomSheetDialogFragmen
 
         isShowing = false;
     }
+
+    @Override
+    public int getTheme() {
+        return R.style.WhiteBottomSheetDialogTheme;
+    }
 }

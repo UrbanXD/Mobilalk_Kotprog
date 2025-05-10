@@ -53,6 +53,7 @@
                 android:text="@string/minus"
                 android:textColor="@color/black"
                 android:textSize="@dimen/medium_font_size"
+                android:background="@android:color/transparent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -72,6 +73,7 @@
                 android:text="@string/plus"
                 android:textColor="@color/black"
                 android:textSize="@dimen/medium_font_size"
+                android:background="@android:color/transparent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>

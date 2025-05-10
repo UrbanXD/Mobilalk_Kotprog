@@ -36,6 +36,10 @@
         <item name="android:textColor">@color/black</item>
         <item name="android:textColorHint">@color/gray</item>
         <item name="android:backgroundTint">@color/edittext_underline_color</item>
+        <item name="android:textCursorDrawable">@color/edittext_underline_color</item>
+        <item name="android:textSelectHandleLeft">@drawable/edit_text_handle</item>
+        <item name="android:textSelectHandleRight">@drawable/edit_text_handle</item>
+        <item name="android:textSelectHandle">@drawable/edit_text_handle</item>
     </style>
 
     <style name="AppEditTextTablet" parent="Widget.AppCompat.EditText">
@@ -45,6 +49,10 @@
         <item name="android:textColor">@color/black</item>
         <item name="android:textColorHint">@color/gray</item>
         <item name="android:textSize">@dimen/normal_font_size</item>
+        <item name="android:textCursorDrawable">@color/edittext_underline_color</item>
+        <item name="android:textSelectHandleLeft">@drawable/edit_text_handle</item>
+        <item name="android:textSelectHandleRight">@drawable/edit_text_handle</item>
+        <item name="android:textSelectHandle">@drawable/edit_text_handle</item>
     </style>
 
     <style name="AppErrorText" parent="Widget.AppCompat.TextView">
@@ -62,5 +70,13 @@
         <item name="android:textColor">@color/error</item>
         <item name="android:visibility">gone</item>
         <item name="android:layout_marginStart">4dp</item>
+    </style>
+
+    <style name="WhiteBottomSheetDialogTheme" parent="Theme.Material3.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/WhiteBottomSheetStyle</item>
+    </style>
+
+    <style name="WhiteBottomSheetStyle" parent="Widget.Material3.BottomSheet.Modal">
+        <item name="android:backgroundTint">@color/white</item>
     </style>
 </resources>
