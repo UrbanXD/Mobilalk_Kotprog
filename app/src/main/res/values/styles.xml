@@ -40,6 +40,8 @@
         <item name="android:textSelectHandleLeft">@drawable/edit_text_handle</item>
         <item name="android:textSelectHandleRight">@drawable/edit_text_handle</item>
         <item name="android:textSelectHandle">@drawable/edit_text_handle</item>
+        <item name="android:textColorHighlight">@color/highlight</item>
+        <item name="android:textColorHighlightInverse">@color/highlight</item>
     </style>
 
     <style name="AppEditTextTablet" parent="Widget.AppCompat.EditText">
@@ -53,6 +55,8 @@
         <item name="android:textSelectHandleLeft">@drawable/edit_text_handle</item>
         <item name="android:textSelectHandleRight">@drawable/edit_text_handle</item>
         <item name="android:textSelectHandle">@drawable/edit_text_handle</item>
+        <item name="android:textColorHighlight">@color/highlight</item>
+        <item name="android:textColorHighlightInverse">@color/highlight</item>
     </style>
 
     <style name="AppErrorText" parent="Widget.AppCompat.TextView">
