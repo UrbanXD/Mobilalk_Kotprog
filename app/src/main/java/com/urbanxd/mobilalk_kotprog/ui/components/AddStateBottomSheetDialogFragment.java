@@ -104,6 +104,7 @@ public class AddStateBottomSheetDialogFragment extends BottomSheetDialogFragment
 
         if (getArguments() != null) {
             minValue = getArguments().getLong(MIN_VALUE_ARG, 0);
+            if(minValue < 0) minValue = 0;
         }
 
         if(savedInstanceState != null) {

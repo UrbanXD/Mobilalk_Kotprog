@@ -82,5 +82,11 @@
 
     <style name="WhiteBottomSheetStyle" parent="Widget.Material3.BottomSheet.Modal">
         <item name="android:backgroundTint">@color/white</item>
+        <item name="android:textCursorDrawable">@color/edittext_underline_color</item>
+        <item name="android:textSelectHandleLeft">@drawable/edit_text_handle</item>
+        <item name="android:textSelectHandleRight">@drawable/edit_text_handle</item>
+        <item name="android:textSelectHandle">@drawable/edit_text_handle</item>
+        <item name="android:textColorHighlight">@color/highlight</item>
+        <item name="android:textColorHighlightInverse">@color/highlight</item>
     </style>
 </resources>

@@ -58,6 +58,7 @@
                 android:layout_height="wrap_content" />
 
             <EditText
+                style="@style/AppEditText"
                 android:id="@+id/stateInput"
                 android:autofillHints=""
                 android:inputType="number"
